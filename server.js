@@ -20,6 +20,14 @@ app.use('/quadras', quadraRoutes);
 // Rota para os clientes
 app.use('/clientes', clienteRoutes);
 
+app.get('/cliente', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/cliente.html');
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/index.html');
+});
+
 // Iniciar o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
