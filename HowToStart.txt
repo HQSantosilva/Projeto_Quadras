@@ -1,0 +1,13 @@
+1° Instalar o node js: https://nodejs.org/en
+2° Instalar o MongoDB versão community https://www.mongodb.com/try/download/community
+3° Instalar o Mongo Compass para SGDB do nosso banco Mongo
+4° Clonar o Projeto(Necessário ter o GIT)
+    > PASTA
+    > ABRIR TERMINAL NA PASTA
+    > comando: Git Init
+    > comando: Git Clone URL do projeto
+5° Abrir TERMINAL
+    > npm install
+    > Baixou tudo? OK, está pronto
+    > Rode o comando 'npm start' pra iniciar o servidor
+6° Lembre do banco local estar na mesma porta que o projeto (database.js)

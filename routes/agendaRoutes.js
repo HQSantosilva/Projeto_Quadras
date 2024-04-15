@@ -6,21 +6,20 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de criação de quadra
 router.post('/criar', async (req, res) => {
     try {
-        const { clienteId, quadraId, servicoId, dataReserva, dataCadastro } = req.body;
+        const { clienteId, quadraId, servicoId, dataReserva } = req.body;
 
         const agenda = new Agenda({
             clienteId,
             quadraId,
             servicoId,
-            dataReserva,
-            dataCadastro
+            dataReserva
         });
 
         await agenda.save();
-        res.send('Registro agendado com sucesso!');
+        res.send('Agenda criada com sucesso!');
     } catch (error) {
-        console.error('Erro ao registrar agenda:', error);
-        res.status(500).send('Erro ao registrar agenda');
+        console.error('Erro ao criar agenda:', error);
+        res.status(500).send('Erro ao criar agenda');
     }
 });
 

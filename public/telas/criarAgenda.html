@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Agenda</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Cadastrar Agenda</h1>
+    <form action="/agendas/criar" method="POST">
+        <label for="clienteId">ID do Cliente:</label>
+        <input type="text" id="clienteId" name="clienteId" required><br>
+
+        <label for="quadraId">ID da Quadra:</label>
+        <input type="text" id="quadraId" name="quadraId" required><br>
+
+        <label for="servicoId">ID do Serviço:</label>
+        <input type="text" id="servicoId" name="servicoId" required><br>
+
+        <label for="dataReserva">Data de Reserva:</label>
+        <input type="date" id="dataReserva" name="dataReserva" required><br>
+
+        <button type="submit">Cadastrar Agenda</button>
+    </form>
+</body>
+</html>

@@ -6,15 +6,19 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de criação de quadra
 router.post('/criar', async (req, res) => {
     try {
-        const { quadraId, titulo, duracao, descricao, status, dataCadastro } = req.body;
+        const { quadraId, titulo, descricao, duracao, status } = req.body;
+
+        // Verifica se o campo quadraId está presente nos dados recebidos do formulário
+        if (!quadraId) {
+            return res.status(400).send('ID da quadra não fornecido');
+        }
 
         const servico = new Servico({
             quadraId,
             titulo,
             descricao,
             duracao,
-            status,
-            dataCadastro
+            status
         });
 
         await servico.save();

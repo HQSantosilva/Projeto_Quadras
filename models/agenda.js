@@ -1,11 +1,23 @@
 const mongoose = require('mongoose');
 
 const agendaSchema = new mongoose.Schema({
-    clienteId : Number,
-    quadraId : Number,
-    servicoId : Number,
-    dataReserva : Date,
-    dataCadastro : Date
+    clienteId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cliente'
+    },
+    quadraId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quadra'
+    },
+    servicoId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Servico'
+    },
+    dataReserva: Date,
+    dataCadastro: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const Agenda = mongoose.model('Agenda', agendaSchema);

@@ -6,15 +6,14 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de criação de quadra
 router.post('/criar', async (req, res) => {
     try {
-        const { quadraId, servicoId, dias, inicio, fim, dataCadastro } = req.body;
+        const { quadraID, servicoID, dias, inicio, fim } = req.body;
 
         const horario = new Horario({
-            quadraId, 
-            servicoId, 
-            dias, 
-            inicio, 
-            fim, 
-            dataCadastro
+            quadraID,
+            servicoID,
+            dias,
+            inicio,
+            fim
         });
 
         await horario.save();
