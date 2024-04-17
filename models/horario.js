@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const horarioSchema = new mongoose.Schema({
-    quadraID: {
+    quadraId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quadra'
     },

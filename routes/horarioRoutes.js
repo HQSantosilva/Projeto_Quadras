@@ -6,10 +6,10 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de criação de horário
 router.post('/criar', async (req, res) => {
     try {
-        const { quadraID, dias, inicio, fim } = req.body;
+        const { quadraId, dias, inicio, fim } = req.body;
 
         const horario = new Horario({
-            quadraID,
+            quadraId,
             dias,
             inicio,
             fim
@@ -24,10 +24,10 @@ router.post('/criar', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const { quadraID, dias, inicio, fim } = req.body;
+    const { quadraId, dias, inicio, fim } = req.body;
     try {
         const horario = await Horario.findByIdAndUpdate(req.params.id, {
-            quadraID,
+            quadraId,
             dias,
             inicio,
             fim
@@ -53,8 +53,8 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const filtro = {};
-        if (req.query.quadraID) {
-            filtro.quadraID = req.query.quadraID;
+        if (req.query.quadraId) {
+            filtro.quadraId = req.query.quadraID;
         }
         if (req.query.dias) {
             filtro.dias = req.query.dias;
