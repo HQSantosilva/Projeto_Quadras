@@ -3,8 +3,8 @@ const Agenda = require('../models/agenda');
 
 const router = express.Router();
 
-// Rota para lidar com as requisições POST do formulário de criação de quadra
-router.post('/criar', async (req, res) => {
+// Rota para lidar com as requisições POST do formulário de criação de agendamento
+router.post('/', async (req, res) => {
     try {
         const { clienteId, quadraId, servicoId, dataReserva } = req.body;
 
@@ -23,6 +23,7 @@ router.post('/criar', async (req, res) => {
     }
 });
 
+// Rota para atualizar um registro de agenda existente
 router.put('/:id', async (req, res) => {
     const { clienteId, quadraId, servicoId, dataReserva, dataCadastro } = req.body;
     try {
@@ -40,6 +41,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Rota para excluir um registro de agenda
 router.delete('/:id', async (req, res) => {
     try {
         const agenda = await Agenda.findByIdAndDelete(req.params.id);
@@ -50,28 +52,17 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-
+// Rota para buscar agendas com base em filtros opcionais
 router.get('/', async (req, res) => {
     try {
         const filtro = {};
-        if (req.query.clienteId) {
-            filtro.clienteId = req.query.clienteId;
-        }
-        if (req.query.quadraId) {
-            filtro.quadraId = req.query.quadraId;
-        }
-        if (req.query.servicoId) {
-            filtro.servicoId = req.query.servicoId;
-        }
-        if (req.query.dataReserva) {
-            filtro.dataReserva = req.query.dataReserva;
-        }
-        if (req.query.dataCadastro) {
-            filtro.dataCadastro = req.query.dataCadastro;
-        }
+        if (req.query.clienteId) filtro.clienteId = req.query.clienteId;
+        if (req.query.quadraId) filtro.quadraId = req.query.quadraId;
+        if (req.query.servicoId) filtro.servicoId = req.query.servicoId;
+        if (req.query.dataReserva) filtro.dataReserva = req.query.dataReserva;
+        if (req.query.dataCadastro) filtro.dataCadastro = req.query.dataCadastro;
 
         const agendas = await Agenda.find(filtro);
-
         res.json(agendas);
     } catch (error) {
         console.error('Erro ao buscar agendas:', error);
