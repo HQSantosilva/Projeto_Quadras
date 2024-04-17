@@ -3,7 +3,6 @@ const Horario = require('../models/horario');
 
 const router = express.Router();
 
-// Rota para lidar com as requisições POST do formulário de criação de horário
 router.post('/criar', async (req, res) => {
     try {
         const { quadraId, dias, inicio, fim } = req.body;

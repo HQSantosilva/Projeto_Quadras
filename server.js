@@ -5,6 +5,7 @@ const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,11 +19,12 @@ mongoose.connect('mongodb://localhost:27017/projeto', { useNewUrlParser: true, u
 app.use('/quadras', quadraRoutes);
 app.use('/clientes', clienteRoutes);
 app.use('/horarios', horarioRoutes);
-app.use('/agendas', agendaRoutes);
+app.use('/api/agendamentos', agendaRoutes);
 
 const Cliente = require('./models/cliente');
 const Quadra = require('./models/quadra');
 const Horario = require('./models/horario');
+const Agenda = require('./models/agenda');
 
 
 app.get('/criarCliente', (req, res) => {
@@ -75,7 +77,6 @@ app.get('/api/quadras', async (req, res) => {
         res.status(500).send('Erro ao obter quadras');
     }
 });
-
 
 // Iniciar o servidor
 app.listen(PORT, () => {

@@ -25,7 +25,7 @@ async function carregarDados() {
         const horarioSelect = document.getElementById("horario");
         horarios.forEach(horario => {
             const option = document.createElement("option");
-            option.text = horario.horario; 
+            option.text = horario.inicio; 
             option.value = horario._id; 
             horarioSelect.add(option);
         });
@@ -34,15 +34,16 @@ async function carregarDados() {
     }
 }
 
-
 document.getElementById('reservaForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = {};
-    formData.forEach((value, key) => {
-        data[key] = value;
-    });
+    
+    data['clienteId'] = formData.get('cliente'); 
+    data['quadraId'] = formData.get('quadra'); 
+    data['horarioId'] = formData.get('horario'); 
+    data['dataReserva'] = formData.get('dataReserva'); 
 
     try {
         const response = await fetch('/api/agendamentos', {
@@ -54,19 +55,17 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
         });
 
         if (response.ok) {
-            const responseData = await response.json();
-            console.log('Agendamento criado com sucesso:', responseData);
-            
+            // Exibir a mensagem de sucesso na página
+            const mensagem = document.createElement('p');
+            mensagem.textContent = 'Agenda criada com sucesso!';
+            document.body.appendChild(mensagem);
         } else {
             console.error('Erro ao criar agendamento:', response.status);
-            
         }
     } catch (error) {
         console.error('Erro ao criar agendamento:', error);
-        
     }
 });
-
 
 document.addEventListener("DOMContentLoaded", function() {
     carregarDados();
