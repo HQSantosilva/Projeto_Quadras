@@ -3,25 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Agenda</title>
+    <title>Reservas</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Cadastrar Agenda</h1>
-    <form action="/agendas/criar" method="POST">
-        <label for="clienteId">ID do Cliente:</label>
-        <input type="text" id="clienteId" name="clienteId" required><br>
+    <nav>
+        <ul>
+            <li><a href="/criarCliente">Criar Cliente</a></li>
+            <li><a href="/criarQuadra">Criar Quadra</a></li>
+            <li><a href="/criarHorario">Criar Horário</a></li>
+            <li><a href="/criarAgenda">Criar Agenda</a></li>
+        </ul>
+    </nav>
+    <h1>Reservas</h1>
+    <form id="reservaForm">
+        <label for="cliente">Cliente:</label>
+        <select id="cliente" required></select><br>
 
-        <label for="quadraId">ID da Quadra:</label>
-        <input type="text" id="quadraId" name="quadraId" required><br>
+        <label for="quadra">Quadra:</label>
+        <select id="quadra" required></select><br>
+        
+        <label for="horario">Horário:</label>
+        <select id="horario" required></select><br>
 
-        <label for="servicoId">ID do Serviço:</label>
-        <input type="text" id="servicoId" name="servicoId" required><br>
-
-        <label for="dataReserva">Data de Reserva:</label>
-        <input type="date" id="dataReserva" name="dataReserva" required><br>
-
-        <button type="submit">Cadastrar Agenda</button>
+        <button type="submit">Agendar</button>
     </form>
+    <script src="/telas/script.js"></script>
+
 </body>
 </html>
+
+

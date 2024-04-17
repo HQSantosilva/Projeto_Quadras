@@ -6,14 +6,15 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de cadastro de clientes
 router.post('/cadastro', async (req, res) => {
     try {
-        const { nome, email, cpf, telefone, endereco } = req.body;
+        const { nome, email, cpf, telefone, endereco, senha } = req.body;
 
         const cliente = new Cliente({
             nome,
             email,
             cpf,
             telefone,
-            endereco
+            endereco,
+            senha
         });
 
         await cliente.save();
@@ -25,14 +26,16 @@ router.post('/cadastro', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const { nome, email, cpf, telefone, endereco } = req.body;
+    const { nome, email, cpf, telefone, endereco, senha, status } = req.body;
     try {
         const cliente = await Cliente.findByIdAndUpdate(req.params.id, {
             nome,
             email,
             cpf,
             telefone,
-            endereco
+            endereco,
+            senha,
+            status
         });
         res.send('Cliente atualizado com sucesso!');
     } catch (error) {
@@ -69,7 +72,6 @@ router.get('/', async (req, res) => {
         if (req.query.endereco) {
             filtro.endereco = req.query.endereco;
         }
-
         const clientes = await Cliente.find(filtro);
 
         res.json(clientes);

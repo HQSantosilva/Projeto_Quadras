@@ -1,4 +1,3 @@
-// Função para carregar dados da API e preencher os campos do formulário
 async function carregarDados() {
     try {
         const responseClientes = await fetch('/api/clientes');
@@ -7,7 +6,7 @@ async function carregarDados() {
         clientes.forEach(cliente => {
             const option = document.createElement("option");
             option.text = cliente.nome;
-            option.value = cliente._id; // Armazene o ID do cliente como valor do option
+            option.value = cliente._id; 
             clienteSelect.add(option);
         });
 
@@ -17,18 +16,8 @@ async function carregarDados() {
         quadras.forEach(quadra => {
             const option = document.createElement("option");
             option.text = quadra.nome;
-            option.value = quadra._id; // Armazene o ID da quadra como valor do option
+            option.value = quadra._id; 
             quadraSelect.add(option);
-        });
-
-        const responseServicos = await fetch('/api/servicos');
-        const servicos = await responseServicos.json();
-        const servicoSelect = document.getElementById("servico");
-        servicos.forEach(servico => {
-            const option = document.createElement("option");
-            option.text = servico.nome;
-            option.value = servico._id; // Armazene o ID do serviço como valor do option
-            servicoSelect.add(option);
         });
 
         const responseHorarios = await fetch('/api/horarios');
@@ -36,8 +25,8 @@ async function carregarDados() {
         const horarioSelect = document.getElementById("horario");
         horarios.forEach(horario => {
             const option = document.createElement("option");
-            option.text = horario.horario; // Substitua "horario" pelo campo correto do seu horário
-            option.value = horario._id; // Armazene o ID do horário como valor do option
+            option.text = horario.horario; 
+            option.value = horario._id; 
             horarioSelect.add(option);
         });
     } catch (error) {
@@ -45,7 +34,7 @@ async function carregarDados() {
     }
 }
 
-// Função para enviar os dados do formulário para o servidor ao enviar o formulário
+
 document.getElementById('reservaForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -67,18 +56,18 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
         if (response.ok) {
             const responseData = await response.json();
             console.log('Agendamento criado com sucesso:', responseData);
-            // Aqui você pode redirecionar o usuário para outra página ou fazer outra ação após o agendamento ser criado
+            
         } else {
             console.error('Erro ao criar agendamento:', response.status);
-            // Aqui você pode mostrar uma mensagem de erro para o usuário
+            
         }
     } catch (error) {
         console.error('Erro ao criar agendamento:', error);
-        // Aqui você pode mostrar uma mensagem de erro para o usuário
+        
     }
 });
 
-// Chamada da função de carregamento de dados quando a página carrega
+
 document.addEventListener("DOMContentLoaded", function() {
     carregarDados();
 });

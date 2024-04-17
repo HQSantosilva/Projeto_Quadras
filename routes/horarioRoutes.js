@@ -3,14 +3,13 @@ const Horario = require('../models/horario');
 
 const router = express.Router();
 
-// Rota para lidar com as requisições POST do formulário de criação de quadra
+// Rota para lidar com as requisições POST do formulário de criação de horário
 router.post('/criar', async (req, res) => {
     try {
-        const { quadraID, servicoID, dias, inicio, fim } = req.body;
+        const { quadraID, dias, inicio, fim } = req.body;
 
         const horario = new Horario({
             quadraID,
-            servicoID,
             dias,
             inicio,
             fim
@@ -25,15 +24,13 @@ router.post('/criar', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const { quadraId, servicoId, dias, inicio, fim, dataCadastro } = req.body;
+    const { quadraID, dias, inicio, fim } = req.body;
     try {
         const horario = await Horario.findByIdAndUpdate(req.params.id, {
-            quadraId, 
-            servicoId, 
-            dias, 
-            inicio, 
-            fim, 
-            dataCadastro
+            quadraID,
+            dias,
+            inicio,
+            fim
         });
         res.send('Registro de horário atualizado com sucesso!');
     } catch (error) {
@@ -56,11 +53,8 @@ router.delete('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const filtro = {};
-        if (req.query.quadraId) {
-            filtro.quadraId = req.query.quadraId;
-        }
-        if (req.query.servicoId) {
-            filtro.servicoId = req.query.servicoId;
+        if (req.query.quadraID) {
+            filtro.quadraID = req.query.quadraID;
         }
         if (req.query.dias) {
             filtro.dias = req.query.dias;
@@ -79,8 +73,9 @@ router.get('/', async (req, res) => {
 
         res.json(horarios);
     } catch (error) {
-        console.error('Erro ao buscar agendas:', error);
-        res.status(500).send('Erro ao buscar agendas');
+        console.error('Erro ao buscar horários:', error);
+        res.status(500).send('Erro ao buscar horários');
     }
 });
+
 module.exports = router;

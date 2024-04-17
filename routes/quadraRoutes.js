@@ -3,15 +3,15 @@ const Quadra = require('../models/quadra');
 
 const router = express.Router();
 
-// Rota para lidar com as requisições POST do formulário de criação de quadra
 router.post('/criar', async (req, res) => {
     try {
-        const { nome, foto, descricao } = req.body;
+        const { nome, foto, descricao, tipo } = req.body;
 
         const quadra = new Quadra({
             nome,
             foto,
-            descricao
+            descricao,
+            tipo
         });
 
         await quadra.save();
@@ -23,12 +23,13 @@ router.post('/criar', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const { nome, foto, descricao } = req.body;
+    const { nome, foto, descricao, tipo } = req.body;
     try {
         const quadra = await Quadra.findByIdAndUpdate(req.params.id, {
             nome,
             foto,
-            descricao
+            descricao,
+            tipo
         });
         res.send('Quadra atualizada com sucesso!');
     } catch (error) {

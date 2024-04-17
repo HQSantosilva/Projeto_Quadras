@@ -5,10 +5,6 @@ const horarioSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quadra'
     },
-    servicoID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Servico'
-    },
     dias: {
         type: [String],
         enum: ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo']

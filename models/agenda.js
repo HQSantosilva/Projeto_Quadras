@@ -9,14 +9,19 @@ const agendaSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quadra'
     },
-    servicoId: {
+    horarioId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Servico'
+        ref: 'Horario'
     },
     dataReserva: Date,
     dataCadastro: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        enum: ['Ativo', 'Pendente', 'Recusado'],
+        default: 'Pendente'
     }
 });
 

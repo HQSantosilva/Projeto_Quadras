@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="/criarCliente">Criar Cliente</a></li>
+            <li><a href="/criarQuadra">Criar Quadra</a></li>
+            <li><a href="/criarHorario">Criar Horário</a></li>
+            <li><a href="/criarAgenda">Criar Agenda</a></li>
+            <!-- Adicione mais links conforme necessário -->
+        </ul>
+    </nav>
     <h1>Criar Nova Quadra</h1>
     <form action="/quadras/criar" method="POST">
         <label for="nome">Nome da Quadra:</label>
@@ -17,6 +26,12 @@
 
         <label for="descricao">Descrição:</label><br>
         <textarea id="descricao" name="descricao" rows="4" cols="50" required></textarea><br>
+
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo" required>
+            <option value="futsal">Futsal</option>
+            <option value="campo">Campo</option>
+        </select><br>
 
         <button type="submit">Criar Quadra</button>
     </form>
