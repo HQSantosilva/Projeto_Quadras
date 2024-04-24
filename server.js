@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path'); 
 const quadraRoutes = require('./routes/quadraRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
-
+const { buscarAgendamentos } = require('./models/agendamentoModel');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,7 +26,6 @@ const Cliente = require('./models/cliente');
 const Quadra = require('./models/quadra');
 const Horario = require('./models/horario');
 const Agenda = require('./models/agenda');
-
 
 app.get('/criarCliente', (req, res) => {
     res.sendFile(__dirname + '/public/telas/criarCliente.html');
@@ -75,6 +75,20 @@ app.get('/api/quadras', async (req, res) => {
     } catch (error) {
         console.error('Erro ao obter quadras:', error);
         res.status(500).send('Erro ao obter quadras');
+    }
+});
+
+app.get('/listaAgenda', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'telas/listaAgenda.html'));
+});
+
+app.get('/agendamentos', async (req, res) => {
+    try {
+        const agendamentos = await buscarAgendamentos();
+        res.json(agendamentos);
+    } catch (error) {
+        console.error('Erro ao buscar agendamentos:', error);
+        res.status(500).json({ error: 'Erro ao buscar agendamentos' });
     }
 });
 
