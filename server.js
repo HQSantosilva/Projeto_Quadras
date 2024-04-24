@@ -1,19 +1,18 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path'); 
-const quadraRoutes = require('./routes/quadraRoutes');
+const path = require('path');
+const mongoose = require('mongoose');const quadraRoutes = require('./routes/quadraRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
 const { buscarAgendamentos } = require('./models/agendamentoModel');
-
+const modelListaAgenda = require('./models/modelListaAgenda');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+app.use('/models', express.static('models'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/projeto', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://henrique:13581321@clusterprojetoii.limwcim.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conexão com MongoDB estabelecida'))
     .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
 
@@ -79,7 +78,7 @@ app.get('/api/quadras', async (req, res) => {
 });
 
 app.get('/listaAgenda', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'telas/listaAgenda.html'));
+    res.sendFile(path.join(__dirname, 'public', 'telas', 'listaAgenda.html'));
 });
 
 app.get('/agendamentos', async (req, res) => {
@@ -92,7 +91,16 @@ app.get('/agendamentos', async (req, res) => {
     }
 });
 
-// Iniciar o servidor
+app.get('/api/dadosAgenda', async (req, res) => {
+    try {
+        const dadosAgenda = await modelListaAgenda.buscarDadosAgenda();
+        res.json(dadosAgenda);
+    } catch (error) {
+        console.error('Erro ao buscar dados da agenda:', error);
+        res.status(500).json({ error: 'Erro ao buscar dados da agenda' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
