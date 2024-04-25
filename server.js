@@ -12,7 +12,7 @@ app.use('/models', express.static('models'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb+srv://henrique:13581321@clusterprojetoii.limwcim.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/projeto')
     .then(() => console.log('Conexão com MongoDB estabelecida'))
     .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
 
@@ -42,9 +42,21 @@ app.get('/criarAgenda', (req, res) => {
     res.sendFile(__dirname + '/public/telas/criarAgenda.html');
 });
 
+app.get('/home', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/home.html');
+});
+
+app.get('/sobreNos', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/sobreNos.html');
+});
+
+app.get('/contato', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/contato.html');
+});
+
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/index.html');
+    res.sendFile(__dirname + '/public/telas/menu/home.html');
 });
 
 app.get('/api/clientes', async (req, res) => {
