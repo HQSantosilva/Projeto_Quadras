@@ -73,34 +73,38 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="down-contact">
-                    <div class="form-group">
-                        <div class="col-lg-4">
-                            <h1>Reservas</h1>
-                            <form id="reservaForm">
-                                <label for="cliente">Cliente:</label>
-                                <select id="cliente" name="cliente" required></select><br>
-                        
-                                <label for="quadra">Quadra:</label>
-                                <select id="quadra" name="quadra" required></select><br>
-                                
-                                <label for="horario">Horário:</label>
-                                <select id="horario" name="horario" required></select><br>
-
-                                <label for="dataReserva">Data da Reserva:</label>
-                                <input type="date" id="dataReserva" name="dataReserva" required><br>
-                        
-                                <button type="submit">Agendar</button>
-                            </form>
-                            <script src="/telas/script.js"></script>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="down-contact">
+                  <div class="form-group">
+                      <div class="col-lg-4">
+                          <h1>Reservas</h1>
+                          <form id="reservaForm">
+                              <div class="form-group">
+                                  <label for="cliente">Cliente:</label>
+                                  <select class="form-control" id="cliente" name="cliente" required></select>
+                              </div>
+                              <div class="form-group">
+                                  <label for="quadra">Quadra:</label>
+                                  <select class="form-control" id="quadra" name="quadra" required></select>
+                              </div>
+                              <div class="form-group">
+                                  <label for="horario">Horário:</label>
+                                  <select class="form-control" id="horario" name="horario" required></select>
+                              </div>
+                              <div class="form-group">
+                                  <label for="dataReserva">Data da Reserva:</label>
+                                  <input type="date" class="form-control" id="dataReserva" name="dataReserva" required>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Agendar</button>
+                          </form>
+                          <script src="/telas/script.js"></script>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>  
 
     <footer>
         <div class="container">
