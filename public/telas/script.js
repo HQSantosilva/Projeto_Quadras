@@ -6,7 +6,7 @@ async function carregarDados() {
         clientes.forEach(cliente => {
             const option = document.createElement("option");
             option.text = cliente.nome;
-            option.value = cliente._id; 
+            option.value = cliente._id;
             clienteSelect.add(option);
         });
 
@@ -16,7 +16,7 @@ async function carregarDados() {
         quadras.forEach(quadra => {
             const option = document.createElement("option");
             option.text = quadra.nome;
-            option.value = quadra._id; 
+            option.value = quadra._id;
             quadraSelect.add(option);
         });
 
@@ -25,8 +25,8 @@ async function carregarDados() {
         const horarioSelect = document.getElementById("horario");
         horarios.forEach(horario => {
             const option = document.createElement("option");
-            option.text = horario.inicio; 
-            option.value = horario._id; 
+            option.text = horario.inicio;
+            option.value = horario._id;
             horarioSelect.add(option);
         });
     } catch (error) {
@@ -39,11 +39,11 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
 
     const formData = new FormData(event.target);
     const data = {};
-    
-    data['clienteId'] = formData.get('cliente'); 
-    data['quadraId'] = formData.get('quadra'); 
-    data['horarioId'] = formData.get('horario'); 
-    data['dataReserva'] = formData.get('dataReserva'); 
+
+    data['clienteId'] = formData.get('cliente');
+    data['quadraId'] = formData.get('quadra');
+    data['horarioId'] = formData.get('horario');
+    data['dataReserva'] = formData.get('dataReserva');
 
     try {
         const response = await fetch('/api/agendamentos', {
@@ -55,10 +55,8 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
         });
 
         if (response.ok) {
-            // Exibir a mensagem de sucesso na página
-            const mensagem = document.createElement('p');
-            mensagem.textContent = 'Agenda criada com sucesso!';
-            document.body.appendChild(mensagem);
+            // Exibir a mensagem de sucesso em um alerta
+            alert('Agendamento criado com sucesso!');
         } else {
             console.error('Erro ao criar agendamento:', response.status);
         }
