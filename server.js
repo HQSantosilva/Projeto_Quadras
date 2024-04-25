@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');const quadraRoutes = require('./routes/quadraRoutes');
+const mongoose = require('mongoose'); const quadraRoutes = require('./routes/quadraRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
@@ -29,11 +29,15 @@ const Horario = require('./models/horario');
 const Agenda = require('./models/agenda');
 
 app.get('/criarCliente', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/criarCliente.html');
+    res.sendFile(__dirname + '/public/telas/menu/criarCliente.html');
 });
 
 app.get('/criarQuadra', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/criarQuadra.html');
+    res.sendFile(__dirname + '/public/telas/menu/criarQuadra.html');
+});
+
+app.get('/gerenciarQuadra', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/gerenciarQuadra.html');
 });
 
 app.get('/criarHorario', (req, res) => {
@@ -56,8 +60,8 @@ app.get('/contato', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/contato.html');
 });
 
-app.get('/clienteGerenciar', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/menu/criarCliente.html');
+app.get('/gerenciarCliente', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/gerenciarCliente.html');
 });
 
 app.get('/', (req, res) => {
@@ -119,7 +123,7 @@ app.get('/agendamentos', async (req, res) => {
 });*/
 
 app.get('/api/dadosAgenda', async (req, res) => {
-    const { dataSelecionada } = req.query; 
+    const { dataSelecionada } = req.query;
     try {
         const dadosAgenda = await modelListaAgenda.buscarDadosAgendaPorData(dataSelecionada);
         res.json(dadosAgenda);

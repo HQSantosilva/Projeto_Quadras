@@ -1,76 +1,53 @@
-async function criarQuadra(quadraData) {
-    try {
-        const response = await fetch('/quadra/criar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(quadraData)
-        });
+// Defina uma função para carregar a lista de quadras
+function carregarQuadras() {
+    fetch('/quadras') // Rota que retorna a lista de quadras (implemente no servidor)
+        .then(response => response.json())
+        .then(data => {
+            const quadrasList = document.getElementById('quadras-list');
+            quadrasList.innerHTML = ''; // Limpa o conteúdo anterior
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Quadra criada:', data);
-            return data;
-        } else {
-            throw new Error('Erro ao criar quadra');
-        }
-    } catch (error) {
-        console.error('Erro ao criar quadra:', error);
-        throw error;
+            data.forEach(quadra => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${quadra.nome}</td>
+                    <td><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
+                    <td>${quadra.descricao}</td>
+                    <td>${quadra.tipo}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="editarQuadra('${quadra.id}')">Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="excluirQuadra('${quadra.id}')">Excluir</button>
+                    </td>
+                `;
+                quadrasList.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar quadras:', error));
+}
+
+// Função para editar uma quadra
+function editarQuadra(quadraId) {
+    // Implemente a lógica de redirecionamento para a página de edição
+    // Exemplo: window.location.href = `/editarQuadra/${quadraId}`;
+    console.log('Editar quadra com ID:', quadraId);
+}
+
+// Função para excluir uma quadra
+function excluirQuadra(quadraId) {
+    if (confirm('Tem certeza que deseja excluir esta quadra?')) {
+        fetch(`/quadras/${quadraId}`, { method: 'DELETE' }) // Implemente a rota de deleção no servidor
+            .then(response => {
+                if (response.ok) {
+                    // Atualiza a lista após exclusão
+                    carregarQuadras();
+                } else {
+                    console.error('Erro ao excluir quadra:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Erro ao excluir quadra:', error));
     }
 }
 
-async function atualizarQuadra(quadraId, quadraData) {
-    try {
-        const response = await fetch(`/quadra/${quadraId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(quadraData)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Quadra atualizada:', data);
-            return data;
-        } else {
-            throw new Error('Erro ao atualizar quadra');
-        }
-    } catch (error) {
-        console.error('Erro ao atualizar quadra:', error);
-        throw error;
-    }
-}
-
-async function excluirQuadra(quadraId) {
-    try {
-        const response = await fetch(`/quadra/${quadraId}`, {
-            method: 'DELETE'
-        });
-
-        if (response.ok) {
-            console.log('Quadra excluída com sucesso');
-        } else {
-            throw new Error('Erro ao excluir quadra');
-        }
-    } catch (error) {
-        console.error('Erro ao excluir quadra:', error);
-        throw error;
-    }
-}
-
-async function buscarQuadras(filtro) {
-    try {
-        const queryString = new URLSearchParams(filtro).toString();
-        const response = await fetch(`/quadra?${queryString}`);
-        const quadras = await response.json();
-        return quadras;
-    } catch (error) {
-        console.error('Erro ao buscar quadras:', error);
-        throw error;
-    }
-}
-
-export { criarQuadra, atualizarQuadra, excluirQuadra, buscarQuadras };
+// Carrega as quadras quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    carregarQuadras();
+});

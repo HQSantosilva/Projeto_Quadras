@@ -3,139 +3,167 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+    rel="stylesheet">
 
-    <title>Center Ball</title>
+  <title>Center Ball</title>
 
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/fontawesome.css">
-    <link rel="stylesheet" href="/css/css.css">
-    <link rel="stylesheet" href="/css/owl.css">
+  <link rel="stylesheet" href="/css/fontawesome.css">
+  <link rel="stylesheet" href="/css/css.css">
+  <link rel="stylesheet" href="/css/owl.css">
 </head>
 
 <body>
 
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+  <div id="preloader">
+    <div class="jumper">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+  </div>
 
-    <header class="">
-        <nav class="navbar navbar-expand-lg">
-          <div class="container">
+  <header class="">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
             <a class="navbar-brand" href="/home">
-              <h2>Center Ball<em>.</em></h2>
+                <h2>Center Ball<em>.</em></h2>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-              aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/home">Home
-                    <span class="sr-only">(current)</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/sobreNos">Sobre Nós</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/contato">Contato</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/criarAgenda">Reservas</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/clienteGerenciar">Clientes</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
-
-    <div class="heading-page header-text">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="text-content">
-                    </div>
-                </div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sobreNos">Sobre Nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contato">Contato</a>
+                    </li>
+                    <!-- Menu Dropdown para Reservas -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reservas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                            <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
+                            <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
+                        </div>
+                    </li>
+                    <!-- Menu Dropdown para Clientes -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Clientes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                            <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
+                            <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
+                        </div>
+                    </li>
+                    <!-- Menu Dropdown para Quadras -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Quadras
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
+                            <a class="dropdown-item" href="/gerenciarQuadra">Gerenciar Quadras</a>
+                            <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
+</header>
 
+  <div class="heading-page header-text">
     <div class="container">
       <div class="row">
-          <div class="col-lg-12">
-              <div class="down-contact">
-                  <div class="form-group">
-                      <div class="col-lg-4">
-                          <h1>Reservas</h1>
-                          <form id="reservaForm">
-                              <div class="form-group">
-                                  <label for="cliente">Cliente:</label>
-                                  <select class="form-control" id="cliente" name="cliente" required></select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="quadra">Quadra:</label>
-                                  <select class="form-control" id="quadra" name="quadra" required></select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="horario">Horário:</label>
-                                  <select class="form-control" id="horario" name="horario" required></select>
-                              </div>
-                              <div class="form-group">
-                                  <label for="dataReserva">Data da Reserva:</label>
-                                  <input type="date" class="form-control" id="dataReserva" name="dataReserva" required>
-                              </div>
-                              <button type="submit" class="btn btn-primary">Agendar</button>
-                          </form>
-                          <script src="/telas/script.js"></script>
-                      </div>
-                  </div>
-              </div>
+        <div class="col-lg-4">
+          <div class="text-content">
           </div>
-      </div>
-  </div>  
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="social-icons">
-                        <li><a href="#">Whatsapp</a></li>
-                        <li><a href="#">E-mail</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="copyright-text">
-                        <p>Copyright 2024 é os Guri</p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="down-contact">
+          <div class="form-group">
+            <div class="col-lg-4">
+              <h1>Reservas</h1>
+              <form id="reservaForm">
+                <div class="form-group">
+                  <label for="cliente">Cliente:</label>
+                  <select class="form-control" id="cliente" name="cliente" required></select>
+                </div>
+                <div class="form-group">
+                  <label for="quadra">Quadra:</label>
+                  <select class="form-control" id="quadra" name="quadra" required></select>
+                </div>
+                <div class="form-group">
+                  <label for="horario">Horário:</label>
+                  <select class="form-control" id="horario" name="horario" required></select>
+                </div>
+                <div class="form-group">
+                  <label for="dataReserva">Data da Reserva:</label>
+                  <input type="date" class="form-control" id="dataReserva" name="dataReserva" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Agendar</button>
+              </form>
+              <script src="/telas/script.js"></script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Additional Scripts -->
-    <script src="/js/custom.js"></script>
-    <script src="/js/owl.js"></script>
-    <script src="/js/slick.js"></script>
-    <script src="/js/isotope.js"></script>
-    <script src="/js/accordions.js"></script>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="social-icons">
+            <li><a href="#">Whatsapp</a></li>
+            <li><a href="#">E-mail</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-12">
+          <div class="copyright-text">
+            <p>Copyright 2024 é os Guri</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/jquery/jquery.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Additional Scripts -->
+  <script src="/js/custom.js"></script>
+  <script src="/js/owl.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/isotope.js"></script>
+  <script src="/js/accordions.js"></script>
 
 </body>
 
 </html>
-

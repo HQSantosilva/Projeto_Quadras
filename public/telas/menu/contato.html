@@ -5,7 +5,9 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+    rel="stylesheet">
 
   <title>Center Ball</title>
 
@@ -27,38 +29,65 @@
 
   <header class="">
     <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="/home">
-          <h2>Center Ball<em>.</em></h2>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/home">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sobreNos">Sobre Nós</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contato">Contato</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/criarAgenda">Reservas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/clienteGerenciar">Clientes</a>
-            </li>
-          </ul>
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <h2>Center Ball<em>.</em></h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sobreNos">Sobre Nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contato">Contato</a>
+                    </li>
+                    <!-- Menu Dropdown para Reservas -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Reservas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                            <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
+                            <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
+                        </div>
+                    </li>
+                    <!-- Menu Dropdown para Clientes -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Clientes
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                            <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
+                            <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
+                        </div>
+                    </li>
+                    <!-- Menu Dropdown para Quadras -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Quadras
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
+                            <a class="dropdown-item" href="/gerenciarQuadra">Gerenciar Quadras</a>
+                            <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
-  </header>
+</header>
 
   <section class="contact-us">
     <div class="container">

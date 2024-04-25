@@ -1,76 +1,46 @@
-async function cadastrarCliente(clienteData) {
-    try {
-        const response = await fetch('/cliente/cadastro', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(clienteData)
-        });
+// Função para carregar a lista de clientes quando a página é carregada
+document.addEventListener("DOMContentLoaded", async () => {
+    const clientesList = document.getElementById("clientes-list");
+    // Fazer uma requisição GET para obter a lista de clientes
+    const response = await fetch('/clientes');
+    const clientes = await response.json();
+    // Limpar a lista de clientes antes de preenchê-la novamente
+    clientesList.innerHTML = '';
+    // Preencher a tabela com os clientes
+    clientes.forEach(cliente => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${cliente.nome}</td>
+            <td>${cliente.email}</td>
+            <td>${cliente.telefone}</td>
+            <td>
+                <button class="btn btn-primary" onclick="editarCliente('${cliente._id}')">Editar</button>
+                <button class="btn btn-danger" onclick="excluirCliente('${cliente._id}')">Excluir</button>
+            </td>
+        `;
+        clientesList.appendChild(tr);
+    });
+});
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Cliente cadastrado:', data);
-            return data;
-        } else {
-            throw new Error('Erro ao cadastrar cliente');
-        }
-    } catch (error) {
-        console.error('Erro ao cadastrar cliente:', error);
-        throw error;
-    }
+// Função para editar um cliente
+async function editarCliente(id) {
+    // Redirecionar para a página de edição do cliente com o ID do cliente
+    window.location.href = `/editarCliente/${id}`;
 }
 
-async function atualizarCliente(clienteId, clienteData) {
-    try {
-        const response = await fetch(`/cliente/${clienteId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(clienteData)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Cliente atualizado:', data);
-            return data;
-        } else {
-            throw new Error('Erro ao atualizar cliente');
-        }
-    } catch (error) {
-        console.error('Erro ao atualizar cliente:', error);
-        throw error;
-    }
-}
-
-async function excluirCliente(clienteId) {
-    try {
-        const response = await fetch(`/cliente/${clienteId}`, {
+// Função para excluir um cliente
+async function excluirCliente(id) {
+    if (confirm("Tem certeza que deseja excluir este cliente?")) {
+        // Fazer uma requisição DELETE para excluir o cliente
+        const response = await fetch(`/clientes/${id}`, {
             method: 'DELETE'
         });
-
         if (response.ok) {
-            console.log('Cliente excluído com sucesso');
+            alert("Cliente excluído com sucesso!");
+            // Atualizar a lista de clientes após a exclusão
+            document.dispatchEvent(new Event("DOMContentLoaded"));
         } else {
-            throw new Error('Erro ao excluir cliente');
+            alert("Erro ao excluir cliente!");
         }
-    } catch (error) {
-        console.error('Erro ao excluir cliente:', error);
-        throw error;
     }
 }
-
-async function buscarClientes(filtro) {
-    try {
-        const queryString = new URLSearchParams(filtro).toString();
-        const response = await fetch(`/cliente?${queryString}`);
-        const clientes = await response.json();
-        return clientes;
-    } catch (error) {
-        console.error('Erro ao buscar clientes:', error);
-        throw error;
-    }
-}
-
-export { cadastrarCliente, atualizarCliente, excluirCliente, buscarClientes };
