@@ -3,17 +3,23 @@ const mongoose = require('mongoose');
 const agendaSchema = new mongoose.Schema({
     clienteId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cliente'
+        ref: 'Cliente',
+        required: true
     },
     quadraId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Quadra'
+        ref: 'Quadra',
+        required: true
     },
     horarioId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Horario'
+        ref: 'Horario',
+        required: true
     },
-    dataReserva: Date,
+    dataReserva: {
+        type: Date,
+        required: true
+    },
     dataCadastro: {
         type: Date,
         default: Date.now

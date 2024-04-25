@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');const quadraRoutes = require('./routes/quadraRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use('/models', express.static('models'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost:27017/projeto')
     .then(() => console.log('Conexão com MongoDB estabelecida'))
