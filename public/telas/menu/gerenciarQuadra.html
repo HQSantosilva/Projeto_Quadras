@@ -15,6 +15,17 @@
 </head>
 
 <body>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="/js/Quadra.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/owl.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/isotope.js"></script>
+    <script src="/js/accordions.js"></script>
 
     <div id="preloader">
         <div class="jumper">
@@ -25,66 +36,68 @@
     </div>
 
     <header class="">
-      <nav class="navbar navbar-expand-lg">
-          <div class="container">
-              <a class="navbar-brand" href="/home">
-                  <h2>Center Ball<em>.</em></h2>
-              </a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                  aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                      <li class="nav-item active">
-                          <a class="nav-link" href="/home">Home
-                              <span class="sr-only">(current)</span>
-                          </a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="/sobreNos">Sobre Nós</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="/contato">Contato</a>
-                      </li>
-                      <!-- Menu Dropdown para Reservas -->
-                      <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Reservas
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="reservasDropdown">
-                              <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
-                              <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
-                          </div>
-                      </li>
-                      <!-- Menu Dropdown para Clientes -->
-                      <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Clientes
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="clientesDropdown">
-                              <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
-                              <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
-                          </div>
-                      </li>
-                      <!-- Menu Dropdown para Quadras -->
-                      <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Quadras
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
-                              <a class="dropdown-item" href="/gerenciarQuadra">Gerenciar Quadras</a>
-                              <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
-                          </div>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-      </nav>
-  </header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/home">
+                    <h2>Center Ball<em>.</em></h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/home">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/sobreNos">Sobre Nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contato">Contato</a>
+                        </li>
+                        <!-- Menu Dropdown para Reservas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reservas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                                <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
+                                <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
+                            </div>
+                        </li>
+                        <!-- Menu Dropdown para Clientes -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Clientes
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                                <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
+                                <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
+                            </div>
+                        </li>
+                        <!-- Menu Dropdown para Quadras -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Quadras
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
+                                <a class="dropdown-item" href="/gerenciarQuadra">Quadras</a>
+                                <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
+                                <a class="dropdown-item" href="/criarHorario">Criar Horario</a>
+                                <a class="dropdown-item" href="/gerenciarHorario">Horarios</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
     <div class="heading-page header-text">
         <div class="container">
@@ -98,27 +111,42 @@
     </div>
 
     <div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1>Lista de Quadras</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Foto</th>
-                        <th>Descrição</th>
-                        <th>Tipo</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="quadras-list">
-                    <!-- Aqui será preenchido dinamicamente com as quadras -->
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Lista de Quadras</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Foto</th>
+                            <th>Descrição</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quadras-list">
+                        <!-- Insira aqui as quadras dinamicamente -->
+                        <tr>
+                            <td>${quadra.nome}</td>
+                            <td><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
+                            <td>${quadra.descricao}</td>
+                            <td>${quadra.tipo}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary btn-editar" data-id="${quadra._id}"
+                                    data-nome="${quadra.nome}" data-foto="${quadra.foto}"
+                                    data-descricao="${quadra.descricao}" data-tipo="${quadra.tipo}">
+                                    Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger"
+                                    onclick="excluirQuadra('${quadra._id}')">Excluir</button>
+                            </td>
+                        </tr>
+                        <!-- Fim do loop -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
 
     <footer>
         <div class="container">
@@ -137,18 +165,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Additional Scripts -->
-    <script src="/js/Quadra.js"></script>
-    <script src="/js/custom.js"></script>
-    <script src="/js/owl.js"></script>
-    <script src="/js/slick.js"></script>
-    <script src="/js/isotope.js"></script>
-    <script src="/js/accordions.js"></script>
 
 </body>
 

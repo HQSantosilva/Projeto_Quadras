@@ -41,7 +41,11 @@ app.get('/gerenciarQuadra', (req, res) => {
 });
 
 app.get('/criarHorario', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/criarHorario.html');
+    res.sendFile(__dirname + '/public/telas/menu/criarHorario.html');
+});
+
+app.get('/gerenciarHorario', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/gerenciarHorario.html');
 });
 
 app.get('/criarAgenda', (req, res) => {

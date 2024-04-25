@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+        rel="stylesheet">
     <title>Center Ball</title>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/fontawesome.css">
@@ -99,21 +101,36 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <h1>Lista de Clientes</h1>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Telefone</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="clientes-list">
-                        <!-- Aqui será preenchido dinamicamente com os clientes -->
-                    </tbody>
-                </table>
+            <div class="col-lg-8 offset-lg-2">
+                <h1 class="text-center">Cadastrar Horário</h1>
+                <form action="/horarios/criar" method="POST">
+                    <div class="form-group">
+                        <label for="quadraId">ID da Quadra:</label>
+                        <input type="text" class="form-control" id="quadraId" name="quadraId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dias">Dias:</label>
+                        <select class="form-control" id="dias" name="dias" required>
+                            <option value="segunda">Segunda-feira</option>
+                            <option value="terca">Terça-feira</option>
+                            <option value="quarta">Quarta-feira</option>
+                            <option value="quinta">Quinta-feira</option>
+                            <option value="sexta">Sexta-feira</option>
+                            <option value="sabado">Sábado</option>
+                            <option value="domingo">Domingo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inicio">Início:</label>
+                        <input type="time" class="form-control" id="inicio" name="inicio" min="00:00" max="23:00"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fim">Fim:</label>
+                        <input type="time" class="form-control" id="fim" name="fim" min="00:00" max="23:00" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cadastrar Horário</button>
+                </form>
             </div>
         </div>
     </div>
@@ -141,7 +158,6 @@
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Additional Scripts -->
-    <script src="/js/Cliente.js"></script>
     <script src="/js/custom.js"></script>
     <script src="/js/owl.js"></script>
     <script src="/js/slick.js"></script>
