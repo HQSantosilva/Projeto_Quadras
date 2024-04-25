@@ -1,76 +1,70 @@
-async function criarAgenda(agendaData) {
+async function carregarDados() {
     try {
-        const response = await fetch('/agenda/criar', {
+        const responseClientes = await fetch('/api/clientes');
+        const clientes = await responseClientes.json();
+        const clienteSelect = document.getElementById("cliente");
+        clientes.forEach(cliente => {
+            const option = document.createElement("option");
+            option.text = cliente.nome;
+            option.value = cliente._id;
+            clienteSelect.add(option);
+        });
+
+        const responseQuadras = await fetch('/api/quadras');
+        const quadras = await responseQuadras.json();
+        const quadraSelect = document.getElementById("quadra");
+        quadras.forEach(quadra => {
+            const option = document.createElement("option");
+            option.text = quadra.nome;
+            option.value = quadra._id;
+            quadraSelect.add(option);
+        });
+
+        const responseHorarios = await fetch('/api/horarios');
+        const horarios = await responseHorarios.json();
+        const horarioSelect = document.getElementById("horario");
+        horarios.forEach(horario => {
+            const option = document.createElement("option");
+            option.text = horario.inicio;
+            option.value = horario._id;
+            horarioSelect.add(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
+
+document.getElementById('reservaForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = {};
+
+    data['clienteId'] = formData.get('cliente');
+    data['quadraId'] = formData.get('quadra');
+    data['horarioId'] = formData.get('horario');
+    data['dataReserva'] = formData.get('dataReserva');
+
+    try {
+        const response = await fetch('/api/agendamentos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(agendaData)
+            body: JSON.stringify(data)
         });
 
         if (response.ok) {
-            const data = await response.json();
-            console.log('Agenda criada:', data);
-            return data;
+            // Exibir a mensagem de sucesso em um alerta
+            alert('Agendamento criado com sucesso!');
         } else {
-            throw new Error('Erro ao criar agenda');
+            console.error('Erro ao criar agendamento:', response.status);
         }
     } catch (error) {
-        console.error('Erro ao criar agenda:', error);
-        throw error;
+        console.error('Erro ao criar agendamento:', error);
     }
-}
+});
 
-async function atualizarAgenda(agendaId, agendaData) {
-    try {
-        const response = await fetch(`/agenda/${agendaId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(agendaData)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Agenda atualizada:', data);
-            return data;
-        } else {
-            throw new Error('Erro ao atualizar agenda');
-        }
-    } catch (error) {
-        console.error('Erro ao atualizar agenda:', error);
-        throw error;
-    }
-}
-
-async function excluirAgenda(agendaId) {
-    try {
-        const response = await fetch(`/agenda/${agendaId}`, {
-            method: 'DELETE'
-        });
-
-        if (response.ok) {
-            console.log('Agenda excluída com sucesso');
-        } else {
-            throw new Error('Erro ao excluir agenda');
-        }
-    } catch (error) {
-        console.error('Erro ao excluir agenda:', error);
-        throw error;
-    }
-}
-
-async function buscarAgendas(filtro) {
-    try {
-        const queryString = new URLSearchParams(filtro).toString();
-        const response = await fetch(`/agenda?${queryString}`);
-        const agendas = await response.json();
-        return agendas;
-    } catch (error) {
-        console.error('Erro ao buscar agendas:', error);
-        throw error;
-    }
-}
-
-export { criarAgenda, atualizarAgenda, excluirAgenda, buscarAgendas };
+document.addEventListener("DOMContentLoaded", function() {
+    carregarDados();
+});
