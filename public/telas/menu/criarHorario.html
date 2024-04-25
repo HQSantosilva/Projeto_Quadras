@@ -100,17 +100,19 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <h1 class="text-center">Cadastrar Horário</h1>
-                <form action="/horarios/criar" method="POST">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">Cadastrar Horário</h1>
+                <form id="criarHorarioForm">
                     <div class="form-group">
-                        <label for="quadraId">ID da Quadra:</label>
-                        <input type="text" class="form-control" id="quadraId" name="quadraId" required>
+                        <label for="quadraId">Quadra:</label>
+                        <select id="quadraId" name="quadraId" class="form-control" required>
+                            <!-- Opções preenchidas dinamicamente com as quadras disponíveis -->
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="dias">Dias:</label>
-                        <select class="form-control" id="dias" name="dias" required>
+                        <select id="dias" name="dias" class="form-control" required>
                             <option value="segunda">Segunda-feira</option>
                             <option value="terca">Terça-feira</option>
                             <option value="quarta">Quarta-feira</option>
@@ -122,19 +124,18 @@
                     </div>
                     <div class="form-group">
                         <label for="inicio">Início:</label>
-                        <input type="time" class="form-control" id="inicio" name="inicio" min="00:00" max="23:00"
-                            required>
+                        <input type="time" id="inicio" name="inicio" class="form-control" min="00:00" max="23:00" required>
                     </div>
                     <div class="form-group">
                         <label for="fim">Fim:</label>
-                        <input type="time" class="form-control" id="fim" name="fim" min="00:00" max="23:00" required>
+                        <input type="time" id="fim" name="fim" class="form-control" min="00:00" max="23:00" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Cadastrar Horário</button>
                 </form>
             </div>
         </div>
-    </div>
-
+    </div>   
+    
     <footer>
         <div class="container">
             <div class="row">
@@ -158,6 +159,7 @@
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Additional Scripts -->
+    <script src="/js/Horario.js"></script>
     <script src="/js/custom.js"></script>
     <script src="/js/owl.js"></script>
     <script src="/js/slick.js"></script>

@@ -94,3 +94,58 @@ function excluirHorario(horarioId) {
 document.addEventListener('DOMContentLoaded', () => {
     carregarHorarios();
 });
+
+// Função para carregar as quadras disponíveis e preencher o campo de seleção
+function carregarQuadrasDisponiveis() {
+    fetch('/quadras') // Rota que retorna a lista de quadras (implemente no servidor)
+        .then(response => response.json())
+        .then(data => {
+            const quadraSelect = document.getElementById('quadraId');
+            quadraSelect.innerHTML = ''; // Limpa o conteúdo anterior
+
+            data.forEach(quadra => {
+                const option = document.createElement('option');
+                option.value = quadra._id;
+                option.textContent = quadra.nome;
+                quadraSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar quadras disponíveis:', error));
+}
+
+// Carrega as quadras disponíveis quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    carregarQuadrasDisponiveis();
+});
+
+// Evento de envio do formulário para criar horário
+document.getElementById('criarHorarioForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    const formData = new FormData(this); // Obtém os dados do formulário
+    const data = {};
+    formData.forEach((value, key) => {
+        data[key] = value; // Constrói um objeto com os dados do formulário
+    });
+
+    // Envia os dados para o servidor
+    fetch('/horarios/criar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Horário criado com sucesso!');
+            // Redireciona para a página de gerenciamento de horários, se necessário
+        } else {
+            console.error('Erro ao criar horário:', response.statusText);
+            alert('Erro ao criar horário. Verifique o console para mais informações.');
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao criar horário:', error);
+        alert('Erro ao criar horário. Verifique o console para mais informações.');
+    });
+});
