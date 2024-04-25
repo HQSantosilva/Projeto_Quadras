@@ -39,7 +39,7 @@ app.get('/criarHorario', (req, res) => {
 });
 
 app.get('/criarAgenda', (req, res) => {
-    res.sendFile(__dirname + '/public/telas/criarAgenda.html');
+    res.sendFile(__dirname + '/public/telas/menu/criarAgenda.html');
 });
 
 app.get('/home', (req, res) => {
@@ -53,7 +53,6 @@ app.get('/sobreNos', (req, res) => {
 app.get('/contato', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/contato.html');
 });
-
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/home.html');
