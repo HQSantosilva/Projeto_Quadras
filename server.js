@@ -54,6 +54,10 @@ app.get('/contato', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/contato.html');
 });
 
+app.get('/clienteGerenciar', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/criarCliente.html');
+});
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/home.html');
 });

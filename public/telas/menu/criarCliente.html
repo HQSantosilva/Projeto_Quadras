@@ -77,24 +77,29 @@
             <div class="col-lg-12">
                 <div class="down-contact">
                     <div class="form-group">
-                        <div class="col-lg-4">
-                            <h1>Reservas</h1>
-                            <form id="reservaForm">
-                                <label for="cliente">Cliente:</label>
-                                <select id="cliente" required></select><br>
+                        <div class="col-lg-12">
+                            <h1>Cadastro de Cliente</h1>
+                            <form action="/clientes/cadastro" method="POST">
+                                <label for="nome">Nome:</label>
+                                <input type="text" id="nome" name="nome" required><br>
                         
-                                <label for="quadra">Quadra:</label>
-                                <select id="quadra" required></select><br>
-                                
-                                <label for="horario">Horário:</label>
-                                <select id="horario" required></select><br>
-
-                                <label for="dataReserva">Data da Reserva:</label>
-                                <input type="date" id="dataReserva" name="dataReserva" required><br>
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required><br>
                         
-                                <button type="submit">Agendar</button>
+                                <label for="telefone">Telefone:</label>
+                                <input type="text" id="telefone" name="telefone" required><br>
+                        
+                                <label for="senha">Senha:</label>
+                                <input type="password" id="senha" name="senha" required><br>
+                        
+                                <label for="cpf">CPF:</label>
+                                <input type="text" id="cpf" name="cpf" required><br>
+                        
+                                <label for="endereco">Endereço:</label>
+                                <input type="text" id="endereco" name="endereco" required><br>
+                        
+                                <button type="submit">Cadastrar</button>
                             </form>
-                            <script src="/telas/script.js"></script>
                         </div>
                     </div>
                 </div>
