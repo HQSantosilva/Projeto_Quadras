@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose'); const quadraRoutes = require('./routes/quadraRoutes');
+const mongoose = require('mongoose'); 
+const quadraRoutes = require('./routes/quadraRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const horarioRoutes = require('./routes/horarioRoutes');
 const agendaRoutes = require('./routes/agendaRoutes');
