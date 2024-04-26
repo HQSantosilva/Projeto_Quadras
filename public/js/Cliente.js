@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         clientesList.appendChild(tr);
     });
 });
- 
+
 async function editarCliente(id) {
     try {
         console.log(`Editando cliente com ID: ${id}`);
@@ -43,11 +43,11 @@ async function editarCliente(id) {
         telefoneElement.contentEditable = true;
 
         console.log('Campos tornados editáveis.');
-        
+
         nomeElement.classList.add('editable');
         emailElement.classList.add('editable');
         telefoneElement.classList.add('editable');
-        
+
         const button = clienteTRRef.querySelector('#edtBtn');
         if (button) {
             button.innerText = 'Salvar';
@@ -75,7 +75,7 @@ async function excluirCliente(id) {
     }
 }
 
-async function salvarEdicao(id){
+async function salvarEdicao(id) {
     try {
         console.log(`Salvando edição do cliente com ID: ${id}`);
         const clienteTRRef = document.getElementById(`cliente-${id}`);
@@ -95,11 +95,11 @@ async function salvarEdicao(id){
         telefoneElement.contentEditable = false;
 
         console.log('Campos tornados não editáveis.');
-        
+
         nomeElement.classList.remove('editable');
         emailElement.classList.remove('editable');
         telefoneElement.classList.remove('editable');
-        
+
         const button = clienteTRRef.querySelector('#edtBtn');
         if (button) {
             button.innerText = 'Editar';
