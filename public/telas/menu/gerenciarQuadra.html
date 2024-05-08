@@ -15,18 +15,6 @@
 </head>
 
 <body>
-    <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Additional Scripts -->
-    <script src="/js/Quadra.js"></script>
-    <script src="/js/custom.js"></script>
-    <script src="/js/owl.js"></script>
-    <script src="/js/slick.js"></script>
-    <script src="/js/isotope.js"></script>
-    <script src="/js/accordions.js"></script>
-
     <div id="preloader">
         <div class="jumper">
             <div></div>
@@ -125,29 +113,13 @@
                         </tr>
                     </thead>
                     <tbody id="quadras-list">
-                        <!-- Insira aqui as quadras dinamicamente -->
-                        <tr>
-                            <td>${quadra.nome}</td>
-                            <td><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
-                            <td>${quadra.descricao}</td>
-                            <td>${quadra.tipo}</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary btn-editar" data-id="${quadra._id}"
-                                    data-nome="${quadra.nome}" data-foto="${quadra.foto}"
-                                    data-descricao="${quadra.descricao}" data-tipo="${quadra.tipo}">
-                                    Editar
-                                </button>
-                                <button class="btn btn-sm btn-danger"
-                                    onclick="excluirQuadra('${quadra._id}')">Excluir</button>
-                            </td>
-                        </tr>
-                        <!-- Fim do loop -->
+                        <!-- Insira aqui as quadras dinamicamente -->                  
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
+    
     <footer>
         <div class="container">
             <div class="row">
@@ -166,6 +138,17 @@
         </div>
     </footer>
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="/js/Quadra.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/owl.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/isotope.js"></script>
+    <script src="/js/accordions.js"></script>
 </body>
 
 </html>
