@@ -117,7 +117,7 @@ app.get('/agendamentos', async (req, res) => {
     }
 });
 
-/*app.get('/api/dadosAgenda', async (req, res) => {
+app.get('/api/dadosAgenda', async (req, res) => {
     try {
         const dadosAgenda = await modelListaAgenda.buscarDadosAgenda();
         res.json(dadosAgenda);
@@ -125,7 +125,7 @@ app.get('/agendamentos', async (req, res) => {
         console.error('Erro ao buscar dados da agenda:', error);
         res.status(500).json({ error: 'Erro ao buscar dados da agenda' });
     }
-});*/
+});
 
 app.get('/api/dadosAgenda', async (req, res) => {
     const { dataSelecionada } = req.query;

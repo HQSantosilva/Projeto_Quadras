@@ -23,21 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-async function carregarDados() {
-    try {
-        const responseQuadras = await fetch('/api/quadras');
-        const quadras = await responseQuadras.json();
-        const quadraSelect = document.getElementById("quadra");
-        quadras.forEach(quadra => {
-            const option = document.createElement("option");
-            option.text = quadra.nome;
-            option.value = quadra._id;
-            quadraSelect.add(option);
-        });
-    } catch (error) {
-        console.error('Erro ao carregar dados:', error);
-    }
-}
 // Função para editar um horário
 function editarHorario(id) {
     try{
@@ -155,9 +140,55 @@ async function excluirHorario(id) {
     }
 }
 
+async function carregarDados() {
+    try {
+        const responseQuadras = await fetch('/api/quadras');
+        const quadras = await responseQuadras.json();
+        const quadraSelect = document.getElementById("quadra");
+        quadras.forEach(quadra => {
+            const option = document.createElement("option");
+            option.text = quadra.nome;
+            option.value = quadra._id;
+            quadraSelect.add(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
 
+document.getElementById('criarHorarioForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-// Função para carregar as quadras disponíveis e preencher o campo de seleção
+    const formData = new FormData(event.target);
+    const data = {};
+
+    data['quadraId'] = formData.get('quadra');
+
+    try {
+        const response = await fetch('/api/horarios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            // Exibir a mensagem de sucesso em um alerta
+            alert('Horario criado com sucesso!');
+        } else {
+            console.error('Erro ao criar horario:', response.status);
+        }
+    } catch (error) {
+        console.error('Erro ao criar horario:', error);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    carregarDados();
+});
+
+/*// Função para carregar as quadras disponíveis e preencher o campo de seleção
 function carregarQuadrasDisponiveis() {
     fetch('/quadras') // Rota que retorna a lista de quadras (implemente no servidor)
         .then(response => response.json())
@@ -172,3 +203,4 @@ function carregarQuadrasDisponiveis() {
         })
         .catch(error => console.error('Erro ao carregar quadras disponíveis:', error));
 };
+*/
