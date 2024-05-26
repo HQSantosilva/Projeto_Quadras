@@ -165,7 +165,7 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
     data['quadraId'] = formData.get('quadra');
 
     try {
-        const response = await fetch('/api/horarios', {
+        const response = await fetch('/api/horario/criar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
