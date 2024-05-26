@@ -132,10 +132,10 @@ async function excluirHorario(id) {
             method: 'DELETE'
         });
         if (response.ok){
-            alert("Cliente excluído com sucesso!");
+            alert("Horário excluído com sucesso!");
             document.dispatchEvent(new Event("DOMContentLoaded"));
         } else {
-            alert("Erro ao excluir cliente!");
+            alert("Erro ao excluir horário!");
         }
     }
 }
@@ -160,9 +160,12 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const data = {};
-
-    data['quadraId'] = formData.get('quadra');
+    const data = {
+        quadraId: formData.get('quadraId'),
+        dias: formData.get('dias'),
+        inicio: formData.get('inicio'),
+        fim: formData.get('fim')
+    };
 
     try {
         const response = await fetch('/horarios/criar', {
@@ -175,12 +178,12 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
 
         if (response.ok) {
             // Exibir a mensagem de sucesso em um alerta
-            alert('Horario criado com sucesso!');
+            alert('Horário criado com sucesso!');
         } else {
-            console.error('Erro ao criar horario:', response.status);
+            console.error('Erro ao criar horário:', response.status);
         }
     } catch (error) {
-        console.error('Erro ao criar horario:', error);
+        console.error('Erro ao criar horário:', error);
     }
 });
 
