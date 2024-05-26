@@ -22,6 +22,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         horariosList.appendChild(tr);
     });
 });
+
+async function carregarDados() {
+    try {
+        const responseQuadras = await fetch('/api/quadras');
+        const quadras = await responseQuadras.json();
+        const quadraSelect = document.getElementById("quadra");
+        quadras.forEach(quadra => {
+            const option = document.createElement("option");
+            option.text = quadra.nome;
+            option.value = quadra._id;
+            quadraSelect.add(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
 // Função para editar um horário
 function editarHorario(id) {
     try{
@@ -125,24 +141,22 @@ async function salvarEdicao(id){
 }
 
 // Função para excluir um horário
-function excluirHorario(horarioId) {
+async function excluirHorario(id) {
     if (confirm('Tem certeza que deseja excluir este horário?')) {
-        fetch(`/horarios/${horarioId}`, { method: 'DELETE' }) // Implemente a rota de deleção no servidor
-            .then(response => {
-                if (response.ok) {
-                    // Atualiza a lista após exclusão
-                    carregarHorarios();
-                } else {
-                    console.error('Erro ao excluir horário:', response.statusText);
-                }
-            })
-            .catch(error => console.error('Erro ao excluir horário:', error));
+        const response = await fetch(`/horarios/${id}`,{
+            method: 'DELETE'
+        });
+        if (response.ok){
+            alert("Cliente excluído com sucesso!");
+            document.dispatchEvent(new Event("DOMContentLoaded"));
+        } else {
+            alert("Erro ao excluir cliente!");
+        }
     }
 }
 
 
-//comentado pra testar
-/*
+
 // Função para carregar as quadras disponíveis e preencher o campo de seleção
 function carregarQuadrasDisponiveis() {
     fetch('/quadras') // Rota que retorna a lista de quadras (implemente no servidor)
@@ -157,4 +171,4 @@ function carregarQuadrasDisponiveis() {
             });
         })
         .catch(error => console.error('Erro ao carregar quadras disponíveis:', error));
-};*/
+};

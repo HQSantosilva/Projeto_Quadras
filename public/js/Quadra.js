@@ -129,18 +129,20 @@ async function salvarEdicao(id) {
 }
 
 // Função para excluir uma quadra
-function excluirQuadra(quadraId) {
-    if (confirm('Tem certeza que deseja excluir esta quadra?')) {
-        fetch(`/quadras/${quadraId}`, { method: 'DELETE' }) // Implemente a rota de deleção no servidor
-            .then(response => {
-                if (response.ok) {
-                    // Atualiza a lista após exclusão
-                    carregarQuadras();
-                } else {
-                    console.error('Erro ao excluir quadra:', response.statusText);
-                }
-            })
-            .catch(error => console.error('Erro ao excluir quadra:', error));
+
+async function excluirQuadra(id) {
+    if (confirm("Tem certeza que deseja excluir essa quadra?")){
+        const response = await fetch(`/quadras/${id}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            alert("Quadra excluída com sucesso!");
+            document.dispatchEvent(new Event("DOMContentLoaded"));
+        } else {
+            alert("Erro ao excluir cliente!")
+        }
+
     }
 }
+
 
