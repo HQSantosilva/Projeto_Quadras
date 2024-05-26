@@ -142,7 +142,6 @@ async function salvarEdicao(id){
 
 // Função para excluir um horário
 async function excluirHorario(id) {
-function excluirHorario(id) {
     if (confirm('Tem certeza que deseja excluir este horário?')) {
         const response = await fetch(`/horarios/${id}`,{
             method: 'DELETE'
@@ -153,16 +152,6 @@ function excluirHorario(id) {
         } else {
             alert("Erro ao excluir cliente!");
         }
-        fetch(`/horarios/${id}`, { method: 'DELETE' }) // Implemente a rota de deleção no servidor
-            .then(response => {
-                if (response.ok) {
-                    // Atualiza a lista após exclusão
-                    carregarHorarios();
-                } else {
-                    console.error('Erro ao excluir horário:', response.statusText);
-                }
-            })
-            .catch(error => console.error('Erro ao excluir horário:', error));
     }
 }
 
