@@ -54,16 +54,27 @@ async function carregarHorarios() {
     }
 }
 
-document.getElementById('reservaForm').addEventListener('submit', async (event) => {
+async function enviarReserva(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const data = {};
+    const submitButton = document.getElementById('submitButton');
 
-    data['clienteId'] = formData.get('cliente');
-    data['quadraId'] = formData.get('quadra');
-    data['horarioId'] = formData.get('horario');
-    data['dataReserva'] = formData.get('dataReserva');
+    // Verifica se o botão já está em estado de envio
+    if (submitButton.getAttribute('data-submitting') === 'true') {
+        return;
+    }
+
+    // Marca o botão como em estado de envio
+    submitButton.setAttribute('data-submitting', 'true');
+    submitButton.disabled = true;
+
+    const formData = new FormData(event.target);
+    const data = {
+        clienteId: formData.get('cliente'),
+        quadraId: formData.get('quadra'),
+        horarioId: formData.get('horario'),
+        dataReserva: formData.get('dataReserva')
+    };
 
     try {
         const response = await fetch('/api/agendamentos', {
@@ -81,10 +92,15 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
         }
     } catch (error) {
         console.error('Erro ao criar agendamento:', error);
+    } finally {
+        // Reativa o botão após a conclusão da requisição
+        submitButton.removeAttribute('data-submitting');
+        submitButton.disabled = false;
     }
-});
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     carregarClientes();
     carregarQuadras();
+    document.getElementById('reservaForm').addEventListener('submit', enviarReserva);
 });
