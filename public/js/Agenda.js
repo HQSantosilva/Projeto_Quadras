@@ -1,15 +1,5 @@
-async function carregarDados() {
+async function carregarQuadras() {
     try {
-        const responseClientes = await fetch('/api/clientes');
-        const clientes = await responseClientes.json();
-        const clienteSelect = document.getElementById("cliente");
-        clientes.forEach(cliente => {
-            const option = document.createElement("option");
-            option.text = cliente.nome;
-            option.value = cliente._id;
-            clienteSelect.add(option);
-        });
-
         const responseQuadras = await fetch('/api/quadras');
         const quadras = await responseQuadras.json();
         const quadraSelect = document.getElementById("quadra");
@@ -20,9 +10,39 @@ async function carregarDados() {
             quadraSelect.add(option);
         });
 
-        const responseHorarios = await fetch('/api/horarios');
+        // Adiciona um listener para quando a quadra for selecionada
+        quadraSelect.addEventListener('change', carregarHorarios);
+    } catch (error) {
+        console.error('Erro ao carregar quadras:', error);
+    }
+}
+
+async function carregarClientes() {
+    try {
+        const responseClientes = await fetch('/api/clientes');
+        const clientes = await responseClientes.json();
+        const clienteSelect = document.getElementById("cliente");
+        clientes.forEach(cliente => {
+            const option = document.createElement("option");
+            option.text = cliente.nome;
+            option.value = cliente._id;
+            clienteSelect.add(option);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar clientes:', error);
+    }
+}
+
+async function carregarHorarios() {
+    try {
+        const quadraSelect = document.getElementById("quadra");
+        const quadraId = quadraSelect.value;
+
+        const responseHorarios = await fetch(`/api/horarios?quadraId=${quadraId}`);
         const horarios = await responseHorarios.json();
         const horarioSelect = document.getElementById("horario");
+        horarioSelect.innerHTML = ''; // Limpar as opções atuais
+
         horarios.forEach(horario => {
             const option = document.createElement("option");
             option.text = horario.inicio;
@@ -30,7 +50,7 @@ async function carregarDados() {
             horarioSelect.add(option);
         });
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('Erro ao carregar horários:', error);
     }
 }
 
@@ -55,7 +75,6 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
         });
 
         if (response.ok) {
-            // Exibir a mensagem de sucesso em um alerta
             alert('Agendamento criado com sucesso!');
         } else {
             console.error('Erro ao criar agendamento:', response.status);
@@ -66,5 +85,6 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    carregarDados();
+    carregarClientes();
+    carregarQuadras();
 });

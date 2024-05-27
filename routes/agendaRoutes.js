@@ -67,4 +67,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/horarios', async (req, res) => {
+    try {
+        const { quadraId } = req.query;
+        const filtro = {};
+        if (quadraId) filtro.quadraId = quadraId;
+
+        const horarios = await Horario.find(filtro);
+        res.json(horarios);
+    } catch (error) {
+        console.error('Erro ao buscar horários:', error);
+        res.status(500).send('Erro ao buscar horários');
+    }
+});
+
 module.exports = router;
