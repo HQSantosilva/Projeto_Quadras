@@ -53,6 +53,10 @@ app.get('/criarAgenda', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/criarAgenda.html');
 });
 
+app.get('/gerenciarAgenda', (req, res) => {
+    res.sendFile(__dirname + '/public/telas/menu/gerenciarAgendas.html');
+});
+
 app.get('/home', (req, res) => {
     res.sendFile(__dirname + '/public/telas/menu/home.html');
 });
