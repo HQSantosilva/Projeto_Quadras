@@ -183,11 +183,6 @@ async function salvarEdicaoAgendamento(id) {
     }
 }
 
-
-
-
-
-
 async function excluirAgendamento(id) {
     if (confirm('Tem certeza que deseja excluir este agendamento?')) {
         try {
@@ -252,6 +247,40 @@ async function enviarReserva(event) {
         submitButton.disabled = false;
     }
 }
+
+async function filtrarPorData() {
+    try {
+        const filtroData = document.getElementById('filtroData').value;
+        
+        // Faça a requisição GET para buscar os agendamentos filtrados por data
+        const response = await fetch(`/api/agendamentos?dataReserva=${filtroData}`);
+        const agendamentos = await response.json();
+        
+        // Renderize os agendamentos filtrados na tabela
+        const agendamentosList = document.getElementById("agendamentos-list");
+        agendamentosList.innerHTML = '';
+        agendamentos.forEach(agendamento => {
+            const tr = document.createElement('tr');
+            tr.id = `agendamento-${agendamento._id}`;
+            tr.innerHTML = `
+                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
+                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
+                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
+                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
+                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
+                <td>
+                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
+                </td>
+            `;
+            agendamentosList.appendChild(tr);
+        });
+    } catch (error) {
+        console.error('Erro ao filtrar agendamentos por data:', error);
+        alert('Erro ao filtrar agendamentos por data.');
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     await carregarClientes();
