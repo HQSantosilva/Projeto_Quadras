@@ -54,31 +54,52 @@ async function carregarHorarios() {
     }
 }
 
-async function carregarAgendamentos() {
-    try {
-        const response = await fetch('/api/agendamentos');
-        const agendamentos = await response.json();
-        const agendamentosList = document.getElementById("agendamentos-list");
+async function enviarReserva(event) {
+    event.preventDefault();
 
-        agendamentosList.innerHTML = '';
-        agendamentos.forEach(agendamento => {
-            const tr = document.createElement('tr');
-            tr.id = `agendamento-${agendamento._id}`;
-            tr.innerHTML = `
-                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
-                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
-                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
-                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
-                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
-                <td>
-                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
-                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
-                </td>
-            `;
-            agendamentosList.appendChild(tr);
+    const submitButton = document.getElementById('submitButton');
+
+    // Verifica se o botão já está em estado de envio
+    if (submitButton.getAttribute('data-submitting') === 'true') {
+        return;
+    }
+
+    // Marca o botão como em estado de envio
+    submitButton.setAttribute('data-submitting', 'true');
+    submitButton.disabled = true;
+
+    const formData = new FormData(event.target);
+    const dataReserva = new Date(formData.get('dataReserva'));
+    // Convertendo a data para o formato UTC
+    const dataReservaUTC = dataReserva.toISOString();
+
+    const data = {
+        clienteId: formData.get('cliente'),
+        quadraId: formData.get('quadra'),
+        horarioId: formData.get('horario'),
+        dataReserva: dataReservaUTC
+    };
+
+    try {
+        const response = await fetch('/api/agendamentos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
+
+        if (response.ok) {
+            alert('Agendamento criado com sucesso!');
+        } else {
+            console.error('Erro ao criar agendamento:', response.status);
+        }
     } catch (error) {
-        console.error('Erro ao carregar agendamentos:', error);
+        console.error('Erro ao criar agendamento:', error);
+    } finally {
+        // Reativa o botão após a conclusão da requisição
+        submitButton.removeAttribute('data-submitting');
+        submitButton.disabled = false;
     }
 }
 
@@ -218,11 +239,15 @@ async function enviarReserva(event) {
     submitButton.disabled = true;
 
     const formData = new FormData(event.target);
+    const dataReserva = new Date(formData.get('dataReserva'));
+    // Convertendo a data para o formato UTC
+    const dataReservaUTC = dataReserva.toISOString();
+
     const data = {
         clienteId: formData.get('cliente'),
         quadraId: formData.get('quadra'),
         horarioId: formData.get('horario'),
-        dataReserva: formData.get('dataReserva')
+        dataReserva: dataReservaUTC
     };
 
     try {
@@ -278,6 +303,34 @@ async function filtrarPorData() {
     } catch (error) {
         console.error('Erro ao filtrar agendamentos por data:', error);
         alert('Erro ao filtrar agendamentos por data.');
+    }
+}
+
+async function carregarAgendamentos() {
+    try {
+        const response = await fetch('/api/agendamentos');
+        const agendamentos = await response.json();
+        const agendamentosList = document.getElementById("agendamentos-list");
+
+        agendamentosList.innerHTML = '';
+        agendamentos.forEach(agendamento => {
+            const tr = document.createElement('tr');
+            tr.id = `agendamento-${agendamento._id}`;
+            tr.innerHTML = `
+                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
+                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
+                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
+                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
+                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
+                <td>
+                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
+                </td>
+            `;
+            agendamentosList.appendChild(tr);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar agendamentos:', error);
     }
 }
 
