@@ -309,7 +309,16 @@ async function filtrarPorData() {
 async function carregarAgendamentos() {
     try {
         const response = await fetch('/api/agendamentos');
-        const agendamentos = await response.json();
+        let agendamentos = await response.json();
+
+        // Converter as datas de reserva para o fuso horário local do cliente
+        agendamentos = agendamentos.map(agendamento => {
+            return {
+                ...agendamento,
+                dataReserva: new Date(agendamento.dataReserva)
+            };
+        });
+
         const agendamentosList = document.getElementById("agendamentos-list");
 
         agendamentosList.innerHTML = '';
@@ -320,7 +329,7 @@ async function carregarAgendamentos() {
                 <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
                 <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
                 <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
-                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
+                <td id="edtDataReserva-${agendamento._id}">${agendamento.dataReserva.toLocaleDateString()}</td>
                 <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
                 <td>
                     <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
@@ -333,6 +342,7 @@ async function carregarAgendamentos() {
         console.error('Erro ao carregar agendamentos:', error);
     }
 }
+
 
 
 document.addEventListener('DOMContentLoaded', async () => {
