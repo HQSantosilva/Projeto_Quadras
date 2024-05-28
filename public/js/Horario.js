@@ -190,20 +190,3 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
 document.addEventListener("DOMContentLoaded", function() {
     carregarDados();
 });
-
-/*// Função para carregar as quadras disponíveis e preencher o campo de seleção
-function carregarQuadrasDisponiveis() {
-    fetch('/quadras') // Rota que retorna a lista de quadras (implemente no servidor)
-        .then(response => response.json())
-        .then(data => {
-            const quadraSelect = document.getElementById('quadraId');
-            data.forEach(quadra => {
-                const option = document.createElement('option');
-                option.value = quadra._id;
-                option.textContent = quadra.nome;
-                quadraSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Erro ao carregar quadras disponíveis:', error));
-};
-*/

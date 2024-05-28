@@ -54,6 +54,160 @@ async function carregarHorarios() {
     }
 }
 
+async function carregarAgendamentos() {
+    try {
+        const response = await fetch('/api/agendamentos');
+        const agendamentos = await response.json();
+        const agendamentosList = document.getElementById("agendamentos-list");
+
+        agendamentosList.innerHTML = '';
+        agendamentos.forEach(agendamento => {
+            const tr = document.createElement('tr');
+            tr.id = `agendamento-${agendamento._id}`;
+            tr.innerHTML = `
+                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
+                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
+                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
+                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
+                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
+                <td>
+                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
+                </td>
+            `;
+            agendamentosList.appendChild(tr);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar agendamentos:', error);
+    }
+}
+
+async function editarAgendamento(id) {
+    try {
+        console.log(`Editando agendamento com ID: ${id}`);
+        const agendamentoTRRef = document.getElementById(`agendamento-${id}`);
+        const clienteElement = agendamentoTRRef.querySelector(`#edtClienteId-${id}`);
+        const quadraElement = agendamentoTRRef.querySelector(`#edtQuadraId-${id}`);
+        const horarioElement = agendamentoTRRef.querySelector(`#edtHorarioId-${id}`);
+        const dataReservaElement = agendamentoTRRef.querySelector(`#edtDataReserva-${id}`);
+        const statusElement = agendamentoTRRef.querySelector(`#edtStatus-${id}`);
+
+        if (!clienteElement || !quadraElement || !horarioElement || !dataReservaElement || !statusElement) {
+            throw new Error('Elementos não encontrados.');
+        }
+
+        clienteElement.contentEditable = true;
+        quadraElement.contentEditable = true;
+        horarioElement.contentEditable = true;
+        dataReservaElement.innerHTML = `<input type="date" value="${dataReservaElement.innerText.trim()}">`; // Atualização para usar input de data
+        statusElement.contentEditable = true;
+
+        clienteElement.classList.add('editable');
+        quadraElement.classList.add('editable');
+        horarioElement.classList.add('editable');
+        dataReservaElement.classList.add('editable');
+        statusElement.classList.add('editable');
+
+        const button = agendamentoTRRef.querySelector(`#edtBtn-${id}`);
+        if (button) {
+            button.innerText = 'Salvar';
+            button.setAttribute('onclick', `salvarEdicaoAgendamento('${id}')`);
+        } else {
+            throw new Error('Botão não encontrado.');
+        }
+    } catch (error) {
+        console.error('Erro ao editar agendamento:', error);
+        alert('Erro ao editar agendamento.');
+    }
+}
+
+async function salvarEdicaoAgendamento(id) {
+    try {
+        console.log(`Salvando edição do agendamento com ID: ${id}`);
+        const agendamentoTRRef = document.getElementById(`agendamento-${id}`);
+        const clienteElement = agendamentoTRRef.querySelector(`#edtClienteId-${id}`);
+        const quadraElement = agendamentoTRRef.querySelector(`#edtQuadraId-${id}`);
+        const horarioElement = agendamentoTRRef.querySelector(`#edtHorarioId-${id}`);
+        const dataReservaElement = agendamentoTRRef.querySelector(`#edtDataReserva-${id}`);
+        const statusElement = agendamentoTRRef.querySelector(`#edtStatus-${id}`);
+
+        if (!clienteElement || !quadraElement || !horarioElement || !dataReservaElement || !statusElement) {
+            throw new Error('Elementos não encontrados.');
+        }
+
+        clienteElement.contentEditable = false;
+        quadraElement.contentEditable = false;
+        horarioElement.contentEditable = false;
+        dataReservaElement.contentEditable = false;
+        statusElement.contentEditable = false;
+
+        clienteElement.classList.remove('editable');
+        quadraElement.classList.remove('editable');
+        horarioElement.classList.remove('editable');
+        dataReservaElement.classList.remove('editable');
+        statusElement.classList.remove('editable');
+
+        const button = agendamentoTRRef.querySelector(`#edtBtn-${id}`);
+        if (button) {
+            button.innerText = 'Editar';
+            button.setAttribute('onclick', `editarAgendamento('${id}')`);
+        } else {
+            throw new Error('Botão não encontrado.');
+        }
+
+        const clienteId = clienteElement.innerText.trim();
+        const quadraId = quadraElement.innerText.trim();
+        const horarioId = horarioElement.innerText.trim();
+        const dataReserva = dataReservaElement.innerText.trim();
+        const status = statusElement.innerText.trim();
+
+        console.log('Dados do agendamento:', clienteId, quadraId, horarioId, dataReserva, status);
+
+        const response = await fetch(`/api/agendamentos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ clienteId, quadraId, horarioId, dataReserva, status })
+        });
+
+        if (response.ok) {
+            alert('Agendamento salvo com sucesso!');
+            carregarAgendamentos();
+        } else {
+            alert('Erro ao salvar agendamento!');
+        }
+    } catch (error) {
+        console.error('Erro ao salvar edição do agendamento:', error);
+        alert('Erro ao salvar edição do agendamento.');
+    }
+}
+
+
+
+
+
+
+async function excluirAgendamento(id) {
+    if (confirm('Tem certeza que deseja excluir este agendamento?')) {
+        try {
+            const response = await fetch(`/api/agendamentos/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Agendamento excluído com sucesso!');
+                carregarAgendamentos();
+            } else {
+                alert('Erro ao excluir agendamento!');
+            }
+        } catch (error) {
+            console.error('Erro ao excluir agendamento:', error);
+            alert('Erro ao excluir agendamento!');
+        }
+    }
+}
+
 async function enviarReserva(event) {
     event.preventDefault();
 
@@ -99,8 +253,10 @@ async function enviarReserva(event) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    carregarClientes();
-    carregarQuadras();
+document.addEventListener('DOMContentLoaded', async () => {
+    await carregarClientes();
+    await carregarQuadras();
+    await carregarAgendamentos(); // Nova função para carregar agendamentos
+
     document.getElementById('reservaForm').addEventListener('submit', enviarReserva);
 });

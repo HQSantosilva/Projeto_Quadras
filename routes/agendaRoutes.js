@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-
 router.put('/:id', async (req, res) => {
     const { clienteId, quadraId, horarioId, dataReserva, status } = req.body;
     try {
@@ -32,7 +31,7 @@ router.put('/:id', async (req, res) => {
             horarioId,
             dataReserva,
             status
-        });
+        }, { new: true });
         res.send('Registro de agenda atualizado com sucesso!');
     } catch (error) {
         console.error('Erro ao atualizar agenda:', error);
@@ -42,7 +41,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const agenda = await Agenda.findByIdAndDelete(req.params.id);
+        await Agenda.findByIdAndDelete(req.params.id);
         res.send('Registro de agenda excluído com sucesso!');
     } catch (error) {
         console.error('Erro ao excluir agenda:', error);
@@ -59,25 +58,14 @@ router.get('/', async (req, res) => {
         if (req.query.dataReserva) filtro.dataReserva = req.query.dataReserva;
         if (req.query.status) filtro.status = req.query.status;
 
-        const agendas = await Agenda.find(filtro);
+        const agendas = await Agenda.find(filtro)
+            .populate('clienteId', 'nome')
+            .populate('quadraId', 'nome')
+            .populate('horarioId', 'inicio');
         res.json(agendas);
     } catch (error) {
         console.error('Erro ao buscar agendas:', error);
         res.status(500).send('Erro ao buscar agendas');
-    }
-});
-
-router.get('/horarios', async (req, res) => {
-    try {
-        const { quadraId } = req.query;
-        const filtro = {};
-        if (quadraId) filtro.quadraId = quadraId;
-
-        const horarios = await Horario.find(filtro);
-        res.json(horarios);
-    } catch (error) {
-        console.error('Erro ao buscar horários:', error);
-        res.status(500).send('Erro ao buscar horários');
     }
 });
 
