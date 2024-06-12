@@ -1,6 +1,6 @@
 async function carregarQuadras() {
     try {
-        const responseQuadras = await fetch('/api/quadras');
+        const responseQuadras = await fetch('http://localhost:3000/quadras');
         const quadras = await responseQuadras.json();
         const quadraSelect = document.getElementById("quadra");
         quadras.forEach(quadra => {
@@ -19,7 +19,7 @@ async function carregarQuadras() {
 
 async function carregarClientes() {
     try {
-        const responseClientes = await fetch('/api/clientes');
+        const responseClientes = await fetch('http://localhost:3000/api/clientes');
         const clientes = await responseClientes.json();
         const clienteSelect = document.getElementById("cliente");
         clientes.forEach(cliente => {
@@ -37,51 +37,87 @@ async function carregarHorarios() {
     try {
         const quadraSelect = document.getElementById("quadra");
         const quadraId = quadraSelect.value;
-
-        const responseHorarios = await fetch(`/api/horarios?quadraId=${quadraId}`);
+        const dataReserva = document.getElementById("dataReserva").value;
+        
+        if (!quadraId || !dataReserva) {
+            return;
+        }
+        
+        const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+        const diaSemana = diasSemana[new Date(dataReserva).getDay() + 1];
+        
+        const responseHorarios = await fetch(`http://localhost:3000/api/horarios`);
         const horarios = await responseHorarios.json();
-        const horarioSelect = document.getElementById("horario");
-        horarioSelect.innerHTML = ''; // Limpar as opções atuais
 
-        horarios.forEach(horario => {
+        const responseReservas = await fetch(`http://localhost:3000/api/dadosAgendaData?dataSelecionada=${dataReserva}`);
+        const reservas = await responseReservas.json();
+
+        const horarioSelect = document.getElementById("horario");
+        horarioSelect.innerHTML = '<option value="" disabled selected>Escolha um horário</option>';
+
+        // Filtra os horários disponíveis para o dia da semana e pela quadra selecionada
+        const horariosFiltrados = horarios.filter(horario => horario.dias.includes(diaSemana) && horario.quadraId === quadraId);
+        
+        // Verifica quais horários estão ocupados
+        const horariosOcupados = reservas
+            .filter(reserva => reserva.status === 'Ativo')
+            .map(reserva => ({
+                inicio: reserva.horarioInicio,
+                fim: reserva.horarioFim
+            }));
+
+        // Remove os horários ocupados da lista de horários filtrados
+        const horariosDisponiveis = horariosFiltrados.filter(horario => {
+            return !horariosOcupados.some(ocupado => 
+                ocupado.inicio === horario.inicio && ocupado.fim === horario.fim
+            );
+        });
+
+        horariosDisponiveis.forEach(horario => {
             const option = document.createElement("option");
-            option.text = horario.inicio;
+            option.text = `${horario.inicio}:00 - ${horario.fim}:00`;
             option.value = horario._id;
             horarioSelect.add(option);
         });
+
+        if (horariosDisponiveis.length === 0) {
+            const option = document.createElement("option");
+            option.text = "Nenhum horário disponível";
+            option.value = "";
+            horarioSelect.add(option);
+        }
     } catch (error) {
         console.error('Erro ao carregar horários:', error);
     }
 }
 
-async function enviarReserva(event) {
+document.getElementById('reservaForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const submitButton = document.getElementById('submitButton');
-
-    // Verifica se o botão já está em estado de envio
-    if (submitButton.getAttribute('data-submitting') === 'true') {
-        return;
-    }
-
-    // Marca o botão como em estado de envio
-    submitButton.setAttribute('data-submitting', 'true');
-    submitButton.disabled = true;
-
     const formData = new FormData(event.target);
-    const dataReserva = new Date(formData.get('dataReserva'));
-    // Convertendo a data para o formato UTC
-    const dataReservaUTC = dataReserva.toISOString();
-
-    const data = {
-        clienteId: formData.get('cliente'),
-        quadraId: formData.get('quadra'),
-        horarioId: formData.get('horario'),
-        dataReserva: dataReservaUTC
-    };
+    const clienteSelect = document.getElementById('cliente');
+    const clienteId = clienteSelect.value;
 
     try {
-        const response = await fetch('/api/agendamentos', {
+        const responseClientes = await fetch('http://localhost:3000/api/clientes');
+        const clientes = await responseClientes.json();
+
+        const clienteExato = clientes.find(cliente => cliente._id === clienteId);
+
+        if (!clienteExato) {
+            alert('Cliente não encontrado.');
+            return;
+        }
+
+        const data = {
+            clienteId: clienteExato._id,
+            quadraId: formData.get('quadra'),
+            horarioId: formData.get('horario'),
+            dataReserva: formData.get('dataReserva')
+        };
+
+
+        const response = await fetch('http://localhost:3000/agenda', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -96,259 +132,14 @@ async function enviarReserva(event) {
         }
     } catch (error) {
         console.error('Erro ao criar agendamento:', error);
-    } finally {
-        // Reativa o botão após a conclusão da requisição
-        submitButton.removeAttribute('data-submitting');
-        submitButton.disabled = false;
     }
-}
+});
 
-async function editarAgendamento(id) {
-    try {
-        console.log(`Editando agendamento com ID: ${id}`);
-        const agendamentoTRRef = document.getElementById(`agendamento-${id}`);
-        const clienteElement = agendamentoTRRef.querySelector(`#edtClienteId-${id}`);
-        const quadraElement = agendamentoTRRef.querySelector(`#edtQuadraId-${id}`);
-        const horarioElement = agendamentoTRRef.querySelector(`#edtHorarioId-${id}`);
-        const dataReservaElement = agendamentoTRRef.querySelector(`#edtDataReserva-${id}`);
-        const statusElement = agendamentoTRRef.querySelector(`#edtStatus-${id}`);
+document.addEventListener("DOMContentLoaded", function () {
+    carregarClientes();
+    carregarQuadras();
 
-        if (!clienteElement || !quadraElement || !horarioElement || !dataReservaElement || !statusElement) {
-            throw new Error('Elementos não encontrados.');
-        }
-
-        clienteElement.contentEditable = true;
-        quadraElement.contentEditable = true;
-        horarioElement.contentEditable = true;
-        dataReservaElement.innerHTML = `<input type="date" value="${dataReservaElement.innerText.trim()}">`; // Atualização para usar input de data
-        statusElement.contentEditable = true;
-
-        clienteElement.classList.add('editable');
-        quadraElement.classList.add('editable');
-        horarioElement.classList.add('editable');
-        dataReservaElement.classList.add('editable');
-        statusElement.classList.add('editable');
-
-        const button = agendamentoTRRef.querySelector(`#edtBtn-${id}`);
-        if (button) {
-            button.innerText = 'Salvar';
-            button.setAttribute('onclick', `salvarEdicaoAgendamento('${id}')`);
-        } else {
-            throw new Error('Botão não encontrado.');
-        }
-    } catch (error) {
-        console.error('Erro ao editar agendamento:', error);
-        alert('Erro ao editar agendamento.');
-    }
-}
-
-async function salvarEdicaoAgendamento(id) {
-    try {
-        console.log(`Salvando edição do agendamento com ID: ${id}`);
-        const agendamentoTRRef = document.getElementById(`agendamento-${id}`);
-        const clienteElement = agendamentoTRRef.querySelector(`#edtClienteId-${id}`);
-        const quadraElement = agendamentoTRRef.querySelector(`#edtQuadraId-${id}`);
-        const horarioElement = agendamentoTRRef.querySelector(`#edtHorarioId-${id}`);
-        const dataReservaElement = agendamentoTRRef.querySelector(`#edtDataReserva-${id}`);
-        const statusElement = agendamentoTRRef.querySelector(`#edtStatus-${id}`);
-
-        if (!clienteElement || !quadraElement || !horarioElement || !dataReservaElement || !statusElement) {
-            throw new Error('Elementos não encontrados.');
-        }
-
-        clienteElement.contentEditable = false;
-        quadraElement.contentEditable = false;
-        horarioElement.contentEditable = false;
-        dataReservaElement.contentEditable = false;
-        statusElement.contentEditable = false;
-
-        clienteElement.classList.remove('editable');
-        quadraElement.classList.remove('editable');
-        horarioElement.classList.remove('editable');
-        dataReservaElement.classList.remove('editable');
-        statusElement.classList.remove('editable');
-
-        const button = agendamentoTRRef.querySelector(`#edtBtn-${id}`);
-        if (button) {
-            button.innerText = 'Editar';
-            button.setAttribute('onclick', `editarAgendamento('${id}')`);
-        } else {
-            throw new Error('Botão não encontrado.');
-        }
-
-        const clienteId = clienteElement.innerText.trim();
-        const quadraId = quadraElement.innerText.trim();
-        const horarioId = horarioElement.innerText.trim();
-        const dataReserva = dataReservaElement.innerText.trim();
-        const status = statusElement.innerText.trim();
-
-        console.log('Dados do agendamento:', clienteId, quadraId, horarioId, dataReserva, status);
-
-        const response = await fetch(`/api/agendamentos/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ clienteId, quadraId, horarioId, dataReserva, status })
-        });
-
-        if (response.ok) {
-            alert('Agendamento salvo com sucesso!');
-            carregarAgendamentos();
-        } else {
-            alert('Erro ao salvar agendamento!');
-        }
-    } catch (error) {
-        console.error('Erro ao salvar edição do agendamento:', error);
-        alert('Erro ao salvar edição do agendamento.');
-    }
-}
-
-async function excluirAgendamento(id) {
-    if (confirm('Tem certeza que deseja excluir este agendamento?')) {
-        try {
-            const response = await fetch(`/api/agendamentos/${id}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                alert('Agendamento excluído com sucesso!');
-                carregarAgendamentos();
-            } else {
-                alert('Erro ao excluir agendamento!');
-            }
-        } catch (error) {
-            console.error('Erro ao excluir agendamento:', error);
-            alert('Erro ao excluir agendamento!');
-        }
-    }
-}
-
-async function enviarReserva(event) {
-    event.preventDefault();
-
-    const submitButton = document.getElementById('submitButton');
-
-    // Verifica se o botão já está em estado de envio
-    if (submitButton.getAttribute('data-submitting') === 'true') {
-        return;
-    }
-
-    // Marca o botão como em estado de envio
-    submitButton.setAttribute('data-submitting', 'true');
-    submitButton.disabled = true;
-
-    const formData = new FormData(event.target);
-    const dataReserva = new Date(formData.get('dataReserva'));
-    // Convertendo a data para o formato UTC
-    const dataReservaUTC = dataReserva.toISOString();
-
-    const data = {
-        clienteId: formData.get('cliente'),
-        quadraId: formData.get('quadra'),
-        horarioId: formData.get('horario'),
-        dataReserva: dataReservaUTC
-    };
-
-    try {
-        const response = await fetch('/api/agendamentos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-            alert('Agendamento criado com sucesso!');
-        } else {
-            console.error('Erro ao criar agendamento:', response.status);
-        }
-    } catch (error) {
-        console.error('Erro ao criar agendamento:', error);
-    } finally {
-        // Reativa o botão após a conclusão da requisição
-        submitButton.removeAttribute('data-submitting');
-        submitButton.disabled = false;
-    }
-}
-
-async function filtrarPorData() {
-    try {
-        const filtroData = document.getElementById('filtroData').value;
-        
-        // Faça a requisição GET para buscar os agendamentos filtrados por data
-        const response = await fetch(`/api/agendamentos?dataReserva=${filtroData}`);
-        const agendamentos = await response.json();
-        
-        // Renderize os agendamentos filtrados na tabela
-        const agendamentosList = document.getElementById("agendamentos-list");
-        agendamentosList.innerHTML = '';
-        agendamentos.forEach(agendamento => {
-            const tr = document.createElement('tr');
-            tr.id = `agendamento-${agendamento._id}`;
-            tr.innerHTML = `
-                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
-                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
-                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
-                <td id="edtDataReserva-${agendamento._id}">${new Date(agendamento.dataReserva).toLocaleDateString()}</td>
-                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
-                <td>
-                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
-                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
-                </td>
-            `;
-            agendamentosList.appendChild(tr);
-        });
-    } catch (error) {
-        console.error('Erro ao filtrar agendamentos por data:', error);
-        alert('Erro ao filtrar agendamentos por data.');
-    }
-}
-
-async function carregarAgendamentos() {
-    try {
-        const response = await fetch('/api/agendamentos');
-        let agendamentos = await response.json();
-
-        // Converter as datas de reserva para o fuso horário local do cliente
-        agendamentos = agendamentos.map(agendamento => {
-            return {
-                ...agendamento,
-                dataReserva: new Date(agendamento.dataReserva)
-            };
-        });
-
-        const agendamentosList = document.getElementById("agendamentos-list");
-
-        agendamentosList.innerHTML = '';
-        agendamentos.forEach(agendamento => {
-            const tr = document.createElement('tr');
-            tr.id = `agendamento-${agendamento._id}`;
-            tr.innerHTML = `
-                <td id="edtClienteId-${agendamento._id}">${agendamento.clienteId.nome}</td>
-                <td id="edtQuadraId-${agendamento._id}">${agendamento.quadraId.nome}</td>
-                <td id="edtHorarioId-${agendamento._id}">${agendamento.horarioId.inicio}</td>
-                <td id="edtDataReserva-${agendamento._id}">${agendamento.dataReserva.toLocaleDateString()}</td>
-                <td id="edtStatus-${agendamento._id}">${agendamento.status}</td>
-                <td>
-                    <button class="btn btn-primary" id="edtBtn-${agendamento._id}" onclick="editarAgendamento('${agendamento._id}')">Editar</button>
-                    <button class="btn btn-sm btn-danger" onclick="excluirAgendamento('${agendamento._id}')">Excluir</button>
-                </td>
-            `;
-            agendamentosList.appendChild(tr);
-        });
-    } catch (error) {
-        console.error('Erro ao carregar agendamentos:', error);
-    }
-}
-
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-    await carregarClientes();
-    await carregarQuadras();
-    await carregarAgendamentos(); // Nova função para carregar agendamentos
-
-    document.getElementById('reservaForm').addEventListener('submit', enviarReserva);
+    // Adiciona um listener para a data de reserva
+    const dataReserva = document.getElementById("dataReserva");
+    dataReserva.addEventListener('change', carregarHorarios);
 });

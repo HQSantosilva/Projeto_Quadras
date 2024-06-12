@@ -18,7 +18,7 @@ router.post('/cadastro', async (req, res) => {
         });
 
         await cliente.save();
-        res.send('Cliente cadastrado com sucesso!');
+        res.send(cliente);
     } catch (error) {
         console.error('Erro ao cadastrar cliente:', error);
         res.status(500).send('Erro ao cadastrar cliente');

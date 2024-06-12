@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const horarioSchema = new mongoose.Schema({
     quadraId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Quadra'
+        ref: 'Quadra',
     },
     dias: {
         type: [String],

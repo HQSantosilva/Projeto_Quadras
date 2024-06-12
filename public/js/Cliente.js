@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const clientesList = document.getElementById("clientes-list");
     // Fazer uma requisição GET para obter a lista de clientes
-    const response = await fetch('/clientes');
+    const response = await fetch('http://localhost:3000/clientes');
     const clientes = await response.json();
     // Limpar a lista de clientes antes de preenchê-la novamente
     clientesList.innerHTML = '';
@@ -114,7 +114,7 @@ async function salvarEdicao(id) {
 
         console.log('Dados do cliente:', nome, email, telefone);
 
-        const response = await fetch(`/clientes/${id}`, {
+        const response = await fetch(`http://localhost:3000/clientes/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
