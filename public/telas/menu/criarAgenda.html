@@ -193,7 +193,6 @@
       };
 
       try {
-        console.log(novoCliente)
         const response = await fetch('http://localhost:3000/clientes/cadastro', {
           method: 'POST',
           headers: {
@@ -205,17 +204,16 @@
         if (response.status === 200) {
           // Se o cliente foi criado com sucesso, atualize o select de clientes
           const cliente = await response.json();
-          console.log('depurando')
           const option = document.createElement('option');
-          option.value = cliente.id;
+          option.value = cliente._id;
           option.text = cliente.nome;
           document.getElementById('cliente').appendChild(option);
 
           // Selecione o novo cliente
-          document.getElementById('cliente').value = cliente.id;
+          document.getElementById('cliente').value = cliente._id;
 
           // Selecione o novo cliente
-          document.getElementById('cliente').value = cliente.id;
+          document.getElementById('cliente').value = cliente._id;
 
           // Esconda os campos de novo cliente e o botão de adicionar cliente
           document.getElementById('novoClienteFields').style.display = 'none';

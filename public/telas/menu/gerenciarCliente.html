@@ -254,14 +254,12 @@
                 });
 
                 if (response.status === 200) {
-                    document.getElementById(`cliente-${clienteId}`).remove();
+                    location.reload()
                     alert('Cliente excluído com sucesso!');
                 } else {
                     throw new Error('Erro ao excluir cliente');
                 }
 
-                // Remove a linha da tabela após a exclusão bem-sucedida
-                document.getElementById(`cliente-${clienteId}`).remove();
             } catch (error) {
                 console.error('Erro ao excluir cliente:', error);
                 alert('Erro ao excluir cliente');

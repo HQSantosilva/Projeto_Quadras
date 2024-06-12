@@ -98,6 +98,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nome</th>
                             <th>Foto</th>
                             <th>Descrição</th>
@@ -140,8 +141,16 @@
                                 readonly></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="tipoQuadra">Tipo</label>
-                            <input type="text" class="form-control" id="tipoQuadra" name="tipoQuadra" readonly>
+                            <div class="form-group">
+                                <label for="tipoQuadra">Tipo</label>
+                                <select class="form-control" id="tipoQuadra" name="tipoQuadra" readonly>
+                                    <!-- Option com o valor retornado da API -->
+                                    <!-- Nova opção desejada -->
+                                    <option value="futsal">Futsal</option>
+                                    <option value="campo">Campo</option>
+                                </select>
+                            </div>
+                            
                         </div>
                         <input type="hidden" id="idQuadra" name="idQuadra">
                     </form>
@@ -149,7 +158,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     <button type="button" class="btn btn-primary" onclick="editarQuadra()">Salvar</button>
-                    <button type="button" class="btn btn-danger" onclick="excluirQuadra()">Excluir</button>
                 </div>
             </div>
         </div>
@@ -188,6 +196,7 @@
                 quadras.forEach(quadra => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
+                        <td>${quadra._id}</td>
                         <td>${quadra.nome}</td>
                         <td><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
                         <td>${quadra.descricao}</td>
@@ -256,7 +265,6 @@
         }
 
         async function excluirQuadra(idQuadra) {
-            console.log(idQuadra)
             try {
                 const response = await fetch(`http://localhost:3000/quadras/${idQuadra}`, {
                     method: 'DELETE'

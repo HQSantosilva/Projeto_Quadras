@@ -13,12 +13,11 @@ async function buscarDadosAgendaPorData(dataSelecionada) {
         const dadosAgenda = await Agenda.find({
             dataReserva: new Date(dataSelecionada)
         })
-
+        
         .populate('clienteId', 'nome') 
         .populate('quadraId', 'nome') 
         .populate('horarioId', 'inicio fim');
-        
-        // Formata os dados obtidos conforme necessário
+
         const dadosFormatados = dadosAgenda.map(agenda => ({
             id: agenda._id,
             dataReserva: agenda.dataReserva,

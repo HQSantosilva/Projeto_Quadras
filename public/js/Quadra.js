@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const tr = document.createElement('tr');
         tr.id = `quadra-${quadra._id}`
         tr.innerHTML = `
+            <td id="">${quadra._id}</td>
             <td id="edtNome">${quadra.nome}</td>
             <td id="edtFoto"><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
             <td id="edtDescricao">${quadra.descricao}</td>

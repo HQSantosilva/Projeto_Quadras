@@ -39,7 +39,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="./contato.html">Contato</a>
                         </li>
-                        <!-- Menu Dropdown para Reservas -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,7 +49,6 @@
                                 <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
                             </div>
                         </li>
-                        <!-- Menu Dropdown para Clientes -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,7 +59,6 @@
                                 <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
                             </div>
                         </li>
-                        <!-- Menu Dropdown para Quadras -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -102,6 +99,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>ID - Agenda</th>
                             <th>Cliente</th>
                             <th>Quadra</th>
                             <th>Data</th>
@@ -156,7 +154,7 @@
                                     <option value="Recusado">Recusado</option>
                                 </select>
                             </div>
-                            
+
                         </div>
                         <input type="hidden" id="idAgenda" name="idAgenda">
                     </form>
@@ -168,7 +166,6 @@
             </div>
         </div>
     </div>
-
 
     <footer>
         <div class="container">
@@ -194,38 +191,25 @@
 
     <!-- Script adicional para preencher a tabela de agenda -->
     <script>
-
-        function preencherModalEdicao(idAgenda, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status) {
+        function preencherModalEdicao(id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status) {
             document.getElementById('clienteId').value = clienteNome;
             document.getElementById('quadraId').value = quadraNome;
             document.getElementById('horarioId').value = `${horarioInicio}:00 - ${horarioFim}:00`;
             document.getElementById('dataReserva').value = dataReserva;
-            document.getElementById('idAgenda').value = idAgenda;
+            document.getElementById('idAgenda').value = id;
             document.getElementById('statusEdit').value = status;
 
             // Abrir a modal de edição
             $('#modalEdicao').modal('show');
         }
-        // Função para abrir a modal de edição com as informações da reserva
-        function abrirModalEdicao(idAgenda) {
-            // Aqui você pode adicionar o código para abrir a modal e preencher os campos com as informações da reserva
-            // Por exemplo, você pode usar bibliotecas como Bootstrap para criar a modal
-        }
 
-        // Função para enviar uma solicitação PUT para editar a reserva
-        async function salvarEdicao(dataReserva) {
+        async function salvarEdicao() {
             try {
                 const idAgenda = document.getElementById('idAgenda').value;
-                // const dataReserva = document.getElementById('dataReserva').value;
                 const status = document.getElementById('statusEdit').value;
 
-                // Criar o objeto JSON com os dados editados
-                const dadosEditados = {
-                    dataReserva: dataReserva,
-                    status: status
-                };
+                const dadosEditados = { status: status };
 
-                // Enviar a solicitação PUT para a rota de edição
                 const response = await fetch(`http://localhost:3000/agenda/${idAgenda}`, {
                     method: 'PUT',
                     headers: {
@@ -238,20 +222,15 @@
                     throw new Error('Erro ao editar a reserva');
                 }
 
-                // Fechar a modal após a edição
                 $('#modalEdicao').modal('hide');
-
-                // Recarregar a página após a edição
                 window.location.reload();
             } catch (error) {
                 console.error('Erro ao editar a reserva:', error);
             }
         }
 
-        // Função para enviar uma solicitação DELETE para excluir a reserva
         async function excluirReserva(idAgenda) {
             try {
-                // Enviar a solicitação DELETE para a rota de exclusão
                 const response = await fetch(`http://localhost:3000/agenda/${idAgenda}`, {
                     method: 'DELETE'
                 });
@@ -260,7 +239,6 @@
                     throw new Error('Erro ao excluir a reserva');
                 }
 
-                // Recarregar a página após a exclusão
                 window.location.reload();
             } catch (error) {
                 console.error('Erro ao excluir a reserva:', error);
@@ -270,52 +248,91 @@
         async function preencherGrade() {
             try {
                 const dataSelecionada = document.getElementById('dataSelecionada').value;
-                const response = await fetch(`http://localhost:3000/api/dadosAgendaData?dataSelecionada=${dataSelecionada}`);
+                let response;
+
+                if (dataSelecionada) {
+                    response = await fetch(`http://localhost:3000/api/dadosAgendaData?dataSelecionada=${dataSelecionada}`);
+                } else {
+                    response = await fetch('http://localhost:3000/agenda');
+                }
 
                 if (!response.ok) {
                     throw new Error('Erro ao obter os dados da agenda');
                 }
 
-                if (response.ok) {
-                    const dadosAgenda = await response.json();
-                    const tabela = document.getElementById('agenda-list');
-                    let tabelaHTML = '';
+                const dadosAgenda = await response.json();
 
-                    dadosAgenda.forEach(item => {
-                        const dataReservaFormatada = new Date(item.dataReserva).toLocaleDateString('pt-BR');
-                        console.log(dataReservaFormatada)
+                // Ordenar os dados da agenda por data
+                dadosAgenda.sort((a, b) => new Date(a.dataReserva) - new Date(b.dataReserva));
+
+                const tabela = document.getElementById('agenda-list');
+                let tabelaHTML = '';
+
+                const hoje = new Date();
+                hoje.setHours(0, 0, 0, 0); // Definindo a hora para meia-noite para comparar apenas a data
+
+                dadosAgenda.forEach(item => {
+                    const dataReserva = new Date(item.dataReserva);
+                    dataReserva.setHours(0, 0, 0, 0); // Definindo a hora para meia-noite para comparar apenas a data
+                    const dataAtual = new Date(item.dataReserva);
+                    dataAtual.setDate(dataReserva.getDate() + 1);
+                    const dataReservaFormatada = dataAtual.toLocaleDateString('pt-BR');
+
+                    if (dataSelecionada) {
                         tabelaHTML += `
-                            <tr>
-                                <td>${item.clienteNome}</td>
-                                <td>${item.quadraNome}</td>
-                                <td>${dataReservaFormatada}</td>
-                                <td>${item.horarioInicio}:00 - ${item.horarioFim}:00</td>
-                                <td>${item.status}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${item.id}', '${item.clienteNome}', '${item.quadraNome}', '${item.horarioInicio}', '${item.horarioFim}', '${item.dataReserva}', '${item.status}')">
-                                        <i class="fas fa-pencil-alt"></i> Editar
-                                    </button>
-                                    <button type="button" class="btn btn-danger" onclick="excluirReserva('${item.id}')">
-                                        <i class="fas fa-trash-alt"></i> Excluir
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    });
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.clienteNome}</td>
+                        <td>${item.quadraNome}</td>
+                        <td>${dataReservaFormatada}</td>
+                        <td>${item.horarioInicio} - ${item.horarioFim}</td>
+                        <td>${item.status}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${item.id}', '${item.clienteNome}', '${item.quadraNome}', '${item.horarioInicio}', '${item.horarioFim}', '${item.dataReserva}', '${item.status}')">
+                                <i class="fas fa-pencil-alt"></i> Editar
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="excluirReserva('${item._id}')">
+                                <i class="fas fa-trash-alt"></i> Excluir
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                    } else if (dataReserva >= hoje && item.status !== 'Recusado') {
+                        tabelaHTML += `
+                    <tr>
+                        <td>${item._id}</td>
+                        <td>${item.clienteId.nome}</td>
+                        <td>${item.quadraId.nome}</td>
+                        <td>${dataReservaFormatada}</td>
+                        <td>${item.horarioId.inicio} - ${item.horarioId.fim}</td>
+                        <td>${item.status}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${item._id}', '${item.clienteId.nome}', '${item.quadraId.nome}', '${item.horarioId.inicio}', '${item.horarioId.fim}', '${item.dataReserva}', '${item.status}')">
+                                <i class="fas fa-pencil-alt"></i> Editar
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="excluirReserva('${item._id}')">
+                                <i class="fas fa-trash-alt"></i> Excluir
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                    }
+                });
 
-                    tabela.innerHTML = tabelaHTML;
-                }
+                tabela.innerHTML = tabelaHTML;
             } catch (error) {
                 console.error('Erro ao preencher a grade:', error);
             }
         }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const inputData = document.getElementById('dataSelecionada');
             if (inputData) {
                 const hoje = new Date();
                 const dataHojeFormatada = hoje.toISOString().split('T')[0];
-                inputData.value = dataHojeFormatada;
+                inputData.min = dataHojeFormatada;  // Define a data mínima como hoje
+                inputData.value = '';  // Define a data inicial como vazia
 
                 preencherGrade();
 
@@ -324,7 +341,6 @@
                 console.error('Elemento com ID "dataSelecionada" não encontrado.');
             }
         });
-
     </script>
 
 </body>

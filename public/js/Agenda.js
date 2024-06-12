@@ -43,7 +43,7 @@ async function carregarHorarios() {
             return;
         }
         
-        const diasSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+        const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
         const diaSemana = diasSemana[new Date(dataReserva).getDay() + 1];
         
         const responseHorarios = await fetch(`http://localhost:3000/api/horarios`);
@@ -95,14 +95,28 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const data = {
-        clienteId: formData.get('cliente'),
-        quadraId: formData.get('quadra'),
-        horarioId: formData.get('horario'),
-        dataReserva: formData.get('dataReserva')
-    };
+    const clienteSelect = document.getElementById('cliente');
+    const clienteId = clienteSelect.value;
 
     try {
+        const responseClientes = await fetch('http://localhost:3000/api/clientes');
+        const clientes = await responseClientes.json();
+
+        const clienteExato = clientes.find(cliente => cliente._id === clienteId);
+
+        if (!clienteExato) {
+            alert('Cliente não encontrado.');
+            return;
+        }
+
+        const data = {
+            clienteId: clienteExato._id,
+            quadraId: formData.get('quadra'),
+            horarioId: formData.get('horario'),
+            dataReserva: formData.get('dataReserva')
+        };
+
+
         const response = await fetch('http://localhost:3000/agenda', {
             method: 'POST',
             headers: {

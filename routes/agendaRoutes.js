@@ -42,6 +42,7 @@ router.put('/:id', async (req, res) => {
                     _id: { $ne: req.params.id }, // Exclui o próprio registro que está sendo atualizado
                     quadraId: agenda.quadraId,
                     horarioId: agenda.horarioId,
+                    dataReserva: agenda.dataReserva, // Certifica-se que a data de reserva é a mesma
                     status: { $ne: 'Recusado' } // Apenas atualiza os que não estão recusados
                 },
                 { status: 'Recusado' }
@@ -54,6 +55,7 @@ router.put('/:id', async (req, res) => {
         res.status(500).send('Erro ao atualizar agenda');
     }
 });
+
 
 router.delete('/:id', async (req, res) => {
     try {
@@ -74,7 +76,11 @@ router.get('/', async (req, res) => {
         if (req.query.dataReserva) filtro.dataReserva = req.query.dataReserva;
         if (req.query.status) filtro.status = req.query.status;
 
-        const agendas = await Agenda.find(filtro);
+        const agendas = await Agenda.find(filtro)
+            .populate('clienteId', 'nome') // Assumindo que o campo "nome" está no modelo Cliente
+            .populate('quadraId', 'nome')
+            .populate('horarioId', 'inicio fim');
+
         res.json(agendas);
     } catch (error) {
         console.error('Erro ao buscar agendas:', error);
