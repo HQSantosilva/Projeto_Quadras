@@ -26,13 +26,28 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const { clienteId, quadraId, horarioId, dataReserva, status } = req.body;
     try {
+        // Atualiza o registro específico com os dados fornecidos
         const agenda = await Agenda.findByIdAndUpdate(req.params.id, {
             clienteId,
             quadraId,
             horarioId,
             dataReserva,
             status
-        });
+        }, { new: true });
+
+        // Se o status for "Ativo", atualiza outros registros conflitantes para "Recusado"
+        if (status === 'Ativo') {
+            await Agenda.updateMany(
+                {
+                    _id: { $ne: req.params.id }, // Exclui o próprio registro que está sendo atualizado
+                    quadraId: agenda.quadraId,
+                    horarioId: agenda.horarioId,
+                    status: { $ne: 'Recusado' } // Apenas atualiza os que não estão recusados
+                },
+                { status: 'Recusado' }
+            );
+        }
+
         res.send('Registro de agenda atualizado com sucesso!');
     } catch (error) {
         console.error('Erro ao atualizar agenda:', error);

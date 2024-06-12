@@ -4,28 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+        rel="stylesheet">
     <title>Center Ball</title>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/fontawesome.css">
-    <link rel="stylesheet" href="/css/css.css">
-    <link rel="stylesheet" href="/css/owl.css">
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/fontawesome.css">
+    <link rel="stylesheet" href="../../css/css.css">
+    <link rel="stylesheet" href="../../css/owl.css">
 </head>
 
 <body>
 
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="/home">
+                <a class="navbar-brand" href="./home.html">
                     <h2>Center Ball<em>.</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -35,15 +29,15 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/home">Home
+                            <a class="nav-link" href="./home.html">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sobreNos">Sobre Nós</a>
+                            <a class="nav-link" href="./sobreNos.html">Sobre Nós</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contato">Contato</a>
+                            <a class="nav-link" href="./contato.html">Contato</a>
                         </li>
                         <!-- Menu Dropdown para Reservas -->
                         <li class="nav-item dropdown">
@@ -52,8 +46,8 @@
                                 Reservas
                             </a>
                             <div class="dropdown-menu" aria-labelledby="reservasDropdown">
-                                <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
-                                <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
+                                <a class="dropdown-item" href="./criarAgenda.html">Criar Reserva</a>
+                                <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
                             </div>
                         </li>
                         <!-- Menu Dropdown para Clientes -->
@@ -63,8 +57,8 @@
                                 Clientes
                             </a>
                             <div class="dropdown-menu" aria-labelledby="clientesDropdown">
-                                <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
-                                <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
+                                <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
+                                <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
                             </div>
                         </li>
                         <!-- Menu Dropdown para Quadras -->
@@ -74,10 +68,10 @@
                                 Quadras
                             </a>
                             <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
-                                <a class="dropdown-item" href="/gerenciarQuadra">Quadras</a>
-                                <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
-                                <a class="dropdown-item" href="/criarHorario">Criar Horario</a>
-                                <a class="dropdown-item" href="/gerenciarHorario">Horarios</a>
+                                <a class="dropdown-item" href="./gerenciarQuadra.html">Quadras</a>
+                                <a class="dropdown-item" href="./criarQuadra.html">Criar Quadra</a>
+                                <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
+                                <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
                             </div>
                         </li>
                     </ul>
@@ -106,18 +100,72 @@
                         <tr>
                             <th>Nome</th>
                             <th>Email</th>
+                            <th>CPF</th>
                             <th>Telefone</th>
+                            <th>Endereço</th>
+                            <th>Status</th>
+                            <th>Data de Cadastro</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="clientes-list">
-                        <!-- Aqui será preenchido dinamicamente com os clientes -->
+                        <!-- Clientes serão carregados aqui -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="editClienteModal" tabindex="-1" role="dialog" aria-labelledby="editClienteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editClienteModalLabel">Editar Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editClienteForm">
+                        <div class="form-group">
+                            <label for="editNome">Nome</label>
+                            <input type="text" class="form-control" id="editNome">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" class="form-control" id="editEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCpf">CPF</label>
+                            <input type="text" class="form-control" id="editCpf">
+                        </div>
+                        <div class="form-group">
+                            <label for="editTelefone">Telefone</label>
+                            <input type="text" class="form-control" id="editTelefone">
+                        </div>
+                        <div class="form-group">
+                            <label for="editEndereco">Endereço</label>
+                            <input type="text" class="form-control" id="editEndereco">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStatus">Status</label>
+                            <select class="form-control" id="editStatus">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="editClienteId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="salvarEdicaoCliente()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer>
         <div class="container">
             <div class="row">
@@ -137,17 +185,132 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../jquery/jquery.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Additional Scripts -->
-    <script src="/js/Cliente.js"></script>
-    <script src="/js/custom.js"></script>
-    <script src="/js/owl.js"></script>
-    <script src="/js/slick.js"></script>
-    <script src="/js/isotope.js"></script>
-    <script src="/js/accordions.js"></script>
+    <!-- Script adicional para preencher a tabela de clientes -->
+    <script>
+        async function preencherTabelaClientes() {
+            try {
+                const response = await fetch('http://localhost:3000/api/clientes');
+                if (!response.ok) {
+                    throw new Error('Erro ao obter os dados dos clientes');
+                }
 
+                const clientes = await response.json();
+                const tabelaClientes = document.getElementById('clientes-list');
+
+                let tabelaHTML = '';
+
+                clientes.forEach(cliente => {
+                    tabelaHTML += `
+                                                <tr>
+                                                    <td>${cliente.nome}</td>
+                                                    <td>${cliente.email}</td>
+                                                    <td>${cliente.cpf}</td>
+                                                    <td>${cliente.telefone}</td>
+                                                    <td>${cliente.endereco}</td>
+                                                    <td>${cliente.status}</td>
+                                                    <td>${cliente.dataCadastro}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" onclick="preencherModalEdicaoCliente('${cliente._id}', '${cliente.nome}', '${cliente.email}', '${cliente.cpf}', '${cliente.telefone}', '${cliente.endereco}', '${cliente.status}')">
+                                                            <i class="fas fa-pencil-alt"></i> Editar
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-excluir" onclick="excluirCliente('${cliente._id}')">Excluir</button>
+                                                    </td>
+                                                </tr>
+                                            `;
+                });
+
+                tabelaClientes.innerHTML = tabelaHTML;
+            } catch (error) {
+                console.error('Erro ao preencher a tabela de clientes:', error);
+            }
+        }
+
+        async function preencherModalEdicaoCliente(id, nome, email, cpf, telefone, endereco, status) {
+            try {
+                document.getElementById('editClienteId').value = id;
+                document.getElementById('editNome').value = nome;
+                document.getElementById('editEmail').value = email;
+                document.getElementById('editCpf').value = cpf;
+                document.getElementById('editTelefone').value = telefone;
+                document.getElementById('editEndereco').value = endereco;
+                document.getElementById('editStatus').value = status;
+
+                $('#editClienteModal').modal('show');
+            } catch (error) {
+                console.error('Erro ao preencher modal de edição do cliente:', error);
+            }
+        }
+
+        async function excluirCliente(clienteId) {
+            try {
+                const confirmacao = confirm("Tem certeza que deseja excluir este cliente?");
+                if (!confirmacao) return; // Se o usuário cancelar, não faz nada
+
+                const response = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.status === 200) {
+                    document.getElementById(`cliente-${clienteId}`).remove();
+                    alert('Cliente excluído com sucesso!');
+                } else {
+                    throw new Error('Erro ao excluir cliente');
+                }
+
+                // Remove a linha da tabela após a exclusão bem-sucedida
+                document.getElementById(`cliente-${clienteId}`).remove();
+            } catch (error) {
+                console.error('Erro ao excluir cliente:', error);
+                alert('Erro ao excluir cliente');
+            }
+        }
+
+
+        async function salvarEdicaoCliente() {
+            try {
+                const id = document.getElementById('editClienteId').value;
+                const nome = document.getElementById('editNome').value;
+                const email = document.getElementById('editEmail').value;
+                const cpf = document.getElementById('editCpf').value;
+                const telefone = document.getElementById('editTelefone').value;
+                const endereco = document.getElementById('editEndereco').value;
+                const status = document.getElementById('editStatus').value;
+
+                const dadosEditados = {
+                    nome: nome,
+                    email: email,
+                    cpf: cpf,
+                    telefone: telefone,
+                    endereco: endereco,
+                    status: status
+                };
+
+                const response = await fetch(`http://localhost:3000/clientes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosEditados)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao editar o cliente');
+                }
+
+                $('#editClienteModal').modal('hide');
+                preencherTabelaClientes();
+            } catch (error) {
+                console.error('Erro ao salvar edição do cliente:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            preencherTabelaClientes();
+        });
+    </script>
 </body>
 
 </html>

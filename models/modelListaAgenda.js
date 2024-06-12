@@ -8,18 +8,16 @@ async function buscarDadosAgendaPorData(dataSelecionada) {
         // Calcula a data final (7 dias após a data selecionada)
         const dataFinal = new Date(dataSelecionada);
         dataFinal.setDate(dataFinal.getDate() + 7);
-
+        
         // Realiza a consulta na base de dados com base nas datas selecionadas
         const dadosAgenda = await Agenda.find({
-            dataReserva: {
-                $gte: new Date(dataSelecionada),
-                $lt: new Date(dataFinal)
-            }
+            dataReserva: new Date(dataSelecionada)
         })
+
         .populate('clienteId', 'nome') 
         .populate('quadraId', 'nome') 
-        .populate('horarioId', 'inicio fim'); 
-
+        .populate('horarioId', 'inicio fim');
+        
         // Formata os dados obtidos conforme necessário
         const dadosFormatados = dadosAgenda.map(agenda => ({
             id: agenda._id,

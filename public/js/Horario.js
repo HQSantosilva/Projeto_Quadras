@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const horariosList = document.getElementById("horarios-list");
     // Fazer uma requisição GET para obter a lista de horarios
-    const response = await fetch('/horarios');
+    const response = await fetch('http://localhost:3000/horarios');
     const horarios = await response.json();
     // Limpar a lista de clientes antes de preenchê-la novamente
     horariosList.innerHTML = '';
@@ -106,7 +106,7 @@ async function salvarEdicao(id){
 
         console.log('Dados do horário:', quadraId, dias, inicio, fim);
 
-        const response = await fetch(`/horarios/${id}`,{
+        const response = await fetch(`http://localhost:3000/horarios/${id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ async function salvarEdicao(id){
 // Função para excluir um horário
 async function excluirHorario(id) {
     if (confirm('Tem certeza que deseja excluir este horário?')) {
-        const response = await fetch(`/horarios/${id}`,{
+        const response = await fetch(`http://localhost:3000/horarios/${id}`,{
             method: 'DELETE'
         });
         if (response.ok){
@@ -140,9 +140,9 @@ async function excluirHorario(id) {
     }
 }
 
-async function carregarDados() {
+async function carregarQuadras() {
     try {
-        const responseQuadras = await fetch('/api/quadras');
+        const responseQuadras = await fetch('http://localhost:3000/quadras');
         const quadras = await responseQuadras.json();
         const quadraSelect = document.getElementById("quadra");
         quadras.forEach(quadra => {
@@ -168,7 +168,7 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
     };
 
     try {
-        const response = await fetch('/horarios/criar', {
+        const response = await fetch('http://localhost:3000/horarios/criar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -188,7 +188,7 @@ document.getElementById('criarHorarioForm').addEventListener('submit', async (ev
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    carregarDados();
+    carregarQuadras();
 });
 
 /*// Função para carregar as quadras disponíveis e preencher o campo de seleção

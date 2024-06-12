@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -10,6 +12,10 @@ const { buscarAgendamentos } = require('./models/agendamentoModel');
 const modelListaAgenda = require('./models/modelListaAgenda');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const cors = require("cors")
+app.use(cors())
+
 app.use('/models', express.static('models'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +28,7 @@ mongoose.connect('mongodb://localhost:27017/projeto')
 app.use('/quadras', quadraRoutes);
 app.use('/clientes', clienteRoutes);
 app.use('/horarios', horarioRoutes);
-app.use('/api/agendamentos', agendaRoutes);
+app.use('/agenda', agendaRoutes);
 
 const Cliente = require('./models/cliente');
 const Quadra = require('./models/quadra');
@@ -93,7 +99,7 @@ app.get('/api/horarios', async (req, res) => {
     }
 });
 
-app.get('/api/quadras', async (req, res) => {
+app.get('/quadras', async (req, res) => {
     try {
         const quadras = await Quadra.find();
         res.json(quadras);
@@ -127,7 +133,7 @@ app.get('/api/dadosAgenda', async (req, res) => {
     }
 });
 
-app.get('/api/dadosAgenda', async (req, res) => {
+app.get('/api/dadosAgendaData', async (req, res) => {
     const { dataSelecionada } = req.query;
     try {
         const dadosAgenda = await modelListaAgenda.buscarDadosAgendaPorData(dataSelecionada);
@@ -137,6 +143,11 @@ app.get('/api/dadosAgenda', async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar os dados da agenda' });
     }
 });
+
+app.get('/config', (req, res) => {
+    res.json({ API_URL: process.env.API_URL });
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });

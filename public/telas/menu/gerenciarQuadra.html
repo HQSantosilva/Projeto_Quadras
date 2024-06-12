@@ -8,25 +8,18 @@
         href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
         rel="stylesheet">
     <title>Center Ball</title>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/fontawesome.css">
-    <link rel="stylesheet" href="/css/css.css">
-    <link rel="stylesheet" href="/css/owl.css">
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/fontawesome.css">
+    <link rel="stylesheet" href="../../css/css.css">
+    <link rel="stylesheet" href="../../css/owl.css">
 </head>
 
 <body>
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
 
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="/home">
+                <a class="navbar-brand" href="./home.html">
                     <h2>Center Ball<em>.</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -36,15 +29,15 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/home">Home
+                            <a class="nav-link" href="./home.html">Home
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sobreNos">Sobre Nós</a>
+                            <a class="nav-link" href="./sobreNos.html">Sobre Nós</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contato">Contato</a>
+                            <a class="nav-link" href="./contato.html">Contato</a>
                         </li>
                         <!-- Menu Dropdown para Reservas -->
                         <li class="nav-item dropdown">
@@ -53,8 +46,8 @@
                                 Reservas
                             </a>
                             <div class="dropdown-menu" aria-labelledby="reservasDropdown">
-                                <a class="dropdown-item" href="/criarAgenda">Criar Reserva</a>
-                                <a class="dropdown-item" href="/gerenciarAgenda">Gerenciar Reservas</a>
+                                <a class="dropdown-item" href="./criarAgenda.html">Criar Reserva</a>
+                                <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
                             </div>
                         </li>
                         <!-- Menu Dropdown para Clientes -->
@@ -64,8 +57,8 @@
                                 Clientes
                             </a>
                             <div class="dropdown-menu" aria-labelledby="clientesDropdown">
-                                <a class="dropdown-item" href="/gerenciarCliente">Gerenciar Clientes</a>
-                                <a class="dropdown-item" href="/criarCliente">Criar Cliente</a>
+                                <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
+                                <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
                             </div>
                         </li>
                         <!-- Menu Dropdown para Quadras -->
@@ -75,10 +68,10 @@
                                 Quadras
                             </a>
                             <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
-                                <a class="dropdown-item" href="/gerenciarQuadra">Quadras</a>
-                                <a class="dropdown-item" href="/criarQuadra">Criar Quadra</a>
-                                <a class="dropdown-item" href="/criarHorario">Criar Horario</a>
-                                <a class="dropdown-item" href="/gerenciarHorario">Horarios</a>
+                                <a class="dropdown-item" href="./gerenciarQuadra.html">Quadras</a>
+                                <a class="dropdown-item" href="./criarQuadra.html">Criar Quadra</a>
+                                <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
+                                <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
                             </div>
                         </li>
                     </ul>
@@ -113,13 +106,55 @@
                         </tr>
                     </thead>
                     <tbody id="quadras-list">
-                        <!-- Insira aqui as quadras dinamicamente -->                  
+                        <!-- Insira aqui as quadras dinamicamente -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    
+
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="modalEdicao" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEdicaoLabel">Editar Quadra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdicao">
+                        <div class="form-group">
+                            <label for="nomeQuadra">Nome da Quadra</label>
+                            <input type="text" class="form-control" id="nomeQuadra" name="nomeQuadra" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="fotoQuadra">URL da Foto</label>
+                            <input type="text" class="form-control" id="fotoQuadra" name="fotoQuadra" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricaoQuadra">Descrição</label>
+                            <textarea class="form-control" id="descricaoQuadra" name="descricaoQuadra" rows="4"
+                                readonly></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoQuadra">Tipo</label>
+                            <input type="text" class="form-control" id="tipoQuadra" name="tipoQuadra" readonly>
+                        </div>
+                        <input type="hidden" id="idQuadra" name="idQuadra">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="editarQuadra()">Salvar</button>
+                    <button type="button" class="btn btn-danger" onclick="excluirQuadra()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="row">
@@ -139,16 +174,105 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../jquery/jquery.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Additional Scripts -->
-    <script src="/js/Quadra.js"></script>
-    <script src="/js/custom.js"></script>
-    <script src="/js/owl.js"></script>
-    <script src="/js/slick.js"></script>
-    <script src="/js/isotope.js"></script>
-    <script src="/js/accordions.js"></script>
+    <!-- Script para preencher a tabela de quadras -->
+    <script>
+        async function preencherQuadras() {
+            try {
+                const quadrasList = document.getElementById("quadras-list");
+                const response = await fetch('http://localhost:3000/quadras');
+                const quadras = await response.json();
+                quadrasList.innerHTML = '';
+                quadras.forEach(quadra => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${quadra.nome}</td>
+                        <td><img src="${quadra.foto}" alt="${quadra.nome}" style="max-width: 100px;"></td>
+                        <td>${quadra.descricao}</td>
+                        <td>${quadra.tipo}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${quadra._id}', '${quadra.nome}', '${quadra.foto}', '${quadra.descricao}', '${quadra.tipo}')">Editar</button>
+                            <button type="button" class="btn btn-danger" onclick="excluirQuadra('${quadra._id}')">Excluir</button>
+                        </td>
+                    `;
+                    quadrasList.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Erro ao preencher as quadras:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', preencherQuadras);
+
+        function preencherModalEdicao(idQuadra, nomeQuadra, fotoQuadra, descricaoQuadra, tipoQuadra) {
+            document.getElementById('idQuadra').value = idQuadra;
+            document.getElementById('nomeQuadra').value = nomeQuadra;
+            document.getElementById('fotoQuadra').value = fotoQuadra;
+            document.getElementById('descricaoQuadra').value = descricaoQuadra;
+            document.getElementById('tipoQuadra').value = tipoQuadra;
+
+            document.getElementById('nomeQuadra').removeAttribute('readonly');
+            document.getElementById('fotoQuadra').removeAttribute('readonly');
+            document.getElementById('descricaoQuadra').removeAttribute('readonly');
+            document.getElementById('tipoQuadra').removeAttribute('readonly');
+
+            $('#modalEdicao').modal('show');
+        }
+
+        async function editarQuadra() {
+            try {
+                const idQuadra = document.getElementById('idQuadra').value;
+                const nomeQuadra = document.getElementById('nomeQuadra').value;
+                const fotoQuadra = document.getElementById('fotoQuadra').value;
+                const descricaoQuadra = document.getElementById('descricaoQuadra').value;
+                const tipoQuadra = document.getElementById('tipoQuadra').value;
+
+                const dadosEditados = {
+                    nome: nomeQuadra,
+                    foto: fotoQuadra,
+                    descricao: descricaoQuadra,
+                    tipo: tipoQuadra
+                };
+
+                const response = await fetch(`http://localhost:3000/quadras/${idQuadra}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosEditados)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao editar a quadra');
+                }
+
+                $('#modalEdicao').modal('hide');
+                preencherQuadras();
+            } catch (error) {
+                console.error('Erro ao editar a quadra:', error);
+            }
+        }
+
+        async function excluirQuadra(idQuadra) {
+            console.log(idQuadra)
+            try {
+                const response = await fetch(`http://localhost:3000/quadras/${idQuadra}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao excluir a quadra');
+                }
+
+                preencherQuadras();
+            } catch (error) {
+                console.error('Erro ao excluir a quadra:', error);
+            }
+        }
+    </script>
+
 </body>
 
 </html>
