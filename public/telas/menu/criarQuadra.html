@@ -12,17 +12,24 @@
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <link rel="stylesheet" href="../../css/css.css">
     <link rel="stylesheet" href="../../css/owl.css">
+
+    <style>
+        .dropdown-menu.d-none {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body>
 
-    <!-- <div id="preloader">
+    <div id="preloader">
         <div class="jumper">
             <div></div>
             <div></div>
             <div></div>
         </div>
-    </div> -->
+    </div>
 
     <header class="">
         <nav class="navbar navbar-expand-lg">
@@ -36,7 +43,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="./home.html">Home
                                 <span class="sr-only">(current)</span>
                             </a>
@@ -59,7 +66,7 @@
                             </div>
                         </li>
                         <!-- Menu Dropdown para Clientes -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="dropdownClientes">
                             <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Clientes
@@ -70,7 +77,7 @@
                             </div>
                         </li>
                         <!-- Menu Dropdown para Quadras -->
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active" id="dropdownQuadras">
                             <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Quadras
@@ -81,6 +88,9 @@
                                 <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
                                 <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
                         </li>
                     </ul>
                 </div>
@@ -148,6 +158,38 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function verificarTipoCookie() {
+            const cookies = document.cookie.split(';');
+
+            let tipoValue = null;
+
+            // Encontrar o valor do cookie 'tipo'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'tipo') {
+                    tipoValue = value;
+                }
+            });
+
+            // Verificar se o valor do cookie 'tipo' é 'user'
+            if (tipoValue === 'user') {
+                // Ocultar os itens do menu de clientes
+                const dropdownItemReserva = document.getElementById('itemGerenciarReserva')
+
+                const dropdownClientes = document.getElementById('dropdownClientes');
+                const dropdownQuadras = document.getElementById('dropdownQuadras');
+                if (clientesDropdown) {
+                    dropdownClientes.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownQuadras.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownItemReserva.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+    </script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../jquery/jquery.min.js"></script>

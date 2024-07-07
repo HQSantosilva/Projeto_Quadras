@@ -12,9 +12,21 @@
   <link rel="stylesheet" href="../../css/fontawesome.css">
   <link rel="stylesheet" href="../../css/css.css">
   <link rel="stylesheet" href="../../css/owl.css">
+  <style>
+    .dropdown-menu.d-none {
+      display: inline !important;
+    }
+  </style>
 </head>
 
 <body>
+  <div id="preloader">
+    <div class="jumper">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
 
   <header class="">
     <nav class="navbar navbar-expand-lg">
@@ -28,7 +40,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="./home.html">Home
                 <span class="sr-only">(current)</span>
               </a>
@@ -40,7 +52,7 @@
               <a class="nav-link" href="./contato.html">Contato</a>
             </li>
             <!-- Menu Dropdown para Reservas -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown ">
               <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 Reservas
@@ -51,7 +63,7 @@
               </div>
             </li>
             <!-- Menu Dropdown para Clientes -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="dropdownClientes">
               <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 Clientes
@@ -62,7 +74,7 @@
               </div>
             </li>
             <!-- Menu Dropdown para Quadras -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="dropdownQuadras">
               <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 Quadras
@@ -73,6 +85,9 @@
                 <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
                 <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
               </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
             </li>
           </ul>
         </div>
@@ -99,7 +114,7 @@
             <div class="col-lg-4">
               <h1>Reservas</h1>
               <form id="reservaForm">
-                <div class="form-group">
+                <div class="form-group" id="clienteFormGroup">
                   <label for="cliente">Cliente:</label>
                   <div class="d-flex">
                     <select class="form-control" id="cliente" name="cliente" required>
@@ -110,6 +125,7 @@
                       style="display: none;">+</button>
                   </div>
                 </div>
+                <input type="hidden" id="hiddenCliente" name="cliente">
                 <div id="novoClienteFields" style="display: none;">
                   <div class="form-group">
                     <label for="novoClienteNome">Nome do Cliente:</label>
@@ -181,6 +197,7 @@
     async function salvarNovoCliente() {
       const nome = document.getElementById('novoClienteNome').value;
       const telefone = document.getElementById('novoClienteTelefone').value;
+      const tipo = document.getElementById('novoClienteTipo').value;
 
       const novoCliente = {
         nome: nome,
@@ -188,8 +205,8 @@
         cpf: "incompleto" + nome,
         telefone: telefone,
         endereco: "incompleto",
-        senha: "centerball"
-        // Outros campos podem ser enviados como string vazia
+        senha: "centerball",
+        tipo: 'user',
       };
 
       try {
@@ -222,6 +239,7 @@
           // Limpe os campos do novo cliente
           document.getElementById('novoClienteNome').value = '';
           document.getElementById('novoClienteTelefone').value = '';
+          document.getElementById('novoClienteTipo').value = '';
         } else {
           console.error('Erro ao salvar o cliente');
         }
@@ -229,7 +247,68 @@
         console.error('Erro ao salvar o cliente:', error);
       }
     }
+    function verificarTipoCookie() {
+      const cookies = document.cookie.split(';');
+
+      let tipoValue = null;
+      let idValue = null;
+
+      // Encontrar o valor do cookie 'tipo' e 'id'
+      cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'tipo') {
+          tipoValue = value;
+        }
+        if (name === 'id') {
+          idValue = value;
+        }
+      });
+
+      // Verificar se o valor do cookie 'tipo' é 'user'
+      if (tipoValue === 'user') {
+        // Ocultar os itens do menu de clientes
+        const clienteFormGroup = document.querySelector('.form-group label[for="cliente"]').closest('.form-group');
+        if (clienteFormGroup) {
+          clienteFormGroup.style.display = 'none';
+        }
+
+        const clienteSelect = document.getElementById('cliente');
+        if (clienteSelect) {
+          clienteSelect.removeAttribute('required'); // Remove o atributo required do select
+        }
+
+        const hiddenClienteInput = document.getElementById('hiddenCliente');
+        if (hiddenClienteInput) {
+          hiddenClienteInput.value = idValue; // Define o valor do campo oculto como o ID do cliente
+        }
+
+        const dropdownItemReserva = document.getElementById('itemGerenciarReserva')
+
+        const clientesDropdown = document.getElementById('clientesDropdown');
+        const quadrasDropdown = document.getElementById('quadrasDropdown');
+        if (clientesDropdown) {
+          clientesDropdown.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+        }
+        if (quadrasDropdown) {
+          quadrasDropdown.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+        }
+        if (dropdownItemReserva){
+          dropdownItemReserva.classList.add('d-none')
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+
   </script>
+  <script src="../../jquery/jquery.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="../../js/custom.js"></script>
+  <script src="../../js/owl.js"></script>
+  <script src="../../js/slick.js"></script>
+  <script src="../../js/isotope.js"></script>
+  <script src="../../js/accordions.js"></script>ƒ
 </body>
 
 </html>

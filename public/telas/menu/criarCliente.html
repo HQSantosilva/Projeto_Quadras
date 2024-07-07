@@ -4,15 +4,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+        rel="stylesheet">
     <title>Center Ball</title>
     <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <link rel="stylesheet" href="../../css/css.css">
     <link rel="stylesheet" href="../../css/owl.css">
+
+    <style>
+        .dropdown-menu.d-none {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
+
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 
     <header class="">
         <nav class="navbar navbar-expand-lg">
@@ -26,7 +42,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="./home.html">Home
                                 <span class="sr-only">(current)</span>
                             </a>
@@ -47,18 +63,18 @@
                                 <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active" id="dropdownClientes">
                             <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Clientes
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                            <div class="dropdown-menu" id="clientesDropdown" aria-labelledby="clientesDropdown">
                                 <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
                                 <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
+                        <li class="nav-item dropdown" id="dropdownQuadras">
+                            <a class="nav-link dropdown-toggle " href="#" id="quadrasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Quadras
                             </a>
@@ -68,6 +84,9 @@
                                 <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
                                 <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
                         </li>
                     </ul>
                 </div>
@@ -118,6 +137,10 @@
                                     <label for="endereco">Endereço:</label>
                                     <input type="text" class="form-control" id="endereco" name="endereco" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="tipo">Tipo:</label>
+                                    <input type="text" class="form-control" id="tipo" name="tipo" required>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                             </form>
                         </div>
@@ -143,7 +166,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>quadrasDropdown
 
     <!-- Bootstrap core JavaScript -->
     <script src="../../jquery/jquery.min.js"></script>
@@ -157,7 +180,37 @@
     <script src="../../js/accordions.js"></script>
 
     <script>
-        document.getElementById('cadastroClienteForm').addEventListener('submit', async function(event) {
+        function verificarTipoCookie() {
+            const cookies = document.cookie.split(';');
+
+            let tipoValue = null;
+
+            // Encontrar o valor do cookie 'tipo'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'tipo') {
+                    tipoValue = value;
+                }
+            });
+
+            // Verificar se o valor do cookie 'tipo' é 'user'
+            if (tipoValue === 'user') {
+                // Ocultar os itens do menu de clientes
+                const dropdownItemReserva = document.getElementById('itemGerenciarReserva')
+
+                const dropdownClientes = document.getElementById('dropdownClientes');
+                const dropdownQuadras = document.getElementById('dropdownQuadras');
+                if (clientesDropdown) {
+                    dropdownClientes.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownQuadras.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownItemReserva.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+
+        document.getElementById('cadastroClienteForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
             const nome = document.getElementById('nome').value;
@@ -196,8 +249,18 @@
                 alert('Erro ao realizar cadastro.');
             }
         });
+
+
     </script>
 
+    <script src="../../jquery/jquery.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../js/custom.js"></script>
+    <script src="../../js/owl.js"></script>
+    <script src="../../js/slick.js"></script>
+    <script src="../../js/isotope.js"></script>
+    <script src="../../js/accordions.js"></script>
 </body>
 
 </html>

@@ -5,90 +5,131 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+    rel="stylesheet">
 
   <title>Center Ball</title>
 
-  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="/css/fontawesome.css">
-  <link rel="stylesheet" href="/css/css.css">
-  <link rel="stylesheet" href="/css/owl.css">
+  <link rel="stylesheet" href="../../css/fontawesome.css">
+  <link rel="stylesheet" href="../../css/css.css">
+  <link rel="stylesheet" href="../../css/owl.css">
+
+  <style>
+    .dropdown-menu.d-none {
+      display: none !important;
+    }
+  </style>
+
+  <script>
+    function verificarTipoCookie() {
+      const cookies = document.cookie.split(';');
+
+      let tipoValue = null;
+
+      // Encontrar o valor do cookie 'tipo'
+      cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'tipo') {
+          tipoValue = value;
+        }
+      });
+
+      // Verificar se o valor do cookie 'tipo' é 'user'
+      if (tipoValue === 'user') {
+        // Ocultar os itens do menu de clientes
+        const dropdownClientes = document.getElementById('dropdownClientes');
+        const dropdownQuadras = document.getElementById('dropdownQuadras');
+        console.log(quadrasDropdown)
+        if (clientesDropdown) {
+          dropdownClientes.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+          dropdownQuadras.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+  </script>
 </head>
 
 <body>
 
-  <!-- <div id="preloader">
+  <div id="preloader">
     <div class="jumper">
       <div></div>
       <div></div>
       <div></div>
     </div>
-  </div> -->
+  </div>
 
   <header class="">
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="./home.html">
-                <h2>Center Ball<em>.</em></h2>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./home.html">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./sobreNos.html">Sobre Nós</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./contato.html">Contato</a>
-                    </li>
-                    <!-- Menu Dropdown para Reservas -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Reservas
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="reservasDropdown">
-                            <a class="dropdown-item" href="./criarAgenda.html">Criar Reserva</a>
-                            <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
-                        </div>
-                    </li>
-                    <!-- Menu Dropdown para Clientes -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Clientes
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="clientesDropdown">
-                            <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
-                            <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
-                        </div>
-                    </li>
-                    <!-- Menu Dropdown para Quadras -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Quadras
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
-                          <a class="dropdown-item" href="./gerenciarQuadra.html">Quadras</a>
-                          <a class="dropdown-item" href="./criarQuadra.html">Criar Quadra</a>
-                          <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
-                          <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
-                      </div>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="./home.html">
+          <h2>Center Ball<em>.</em></h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="./home.html">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./sobreNos.html">Sobre Nós</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./contato.html">Contato</a>
+            </li>
+            <!-- Menu Dropdown para Reservas -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Reservas
+              </a>
+              <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                <a class="dropdown-item" href="./criarAgenda.html">Criar Reserva</a>
+                <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
+              </div>
+            </li>
+            <!-- Menu Dropdown para Clientes -->
+            <li class="nav-item dropdown" id="dropdownClientes">
+              <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Clientes
+              </a>
+              <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
+                <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
+              </div>
+            </li>
+            <!-- Menu Dropdown para Quadras -->
+            <li class="nav-item dropdown" id="dropdownQuadras">
+              <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Quadras
+              </a>
+              <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
+                <a class="dropdown-item" href="./gerenciarQuadra.html">Quadras</a>
+                <a class="dropdown-item" href="./criarQuadra.html">Criar Quadra</a>
+                <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
+                <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-</header>
+  </header>
 
   <div class="heading-page header-text">
     <section class="page-heading">
@@ -109,7 +150,7 @@
 
       <div class="row">
         <div class="col-lg-12">
-          <img src="/images/sobre-nos.jpg" alt="">
+          <img src="../../images/sobre-nos.jpg" alt="">
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
             industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
@@ -141,6 +182,8 @@
       </div>
     </div>
   </footer>
+
+
 
   <script src="../../jquery/jquery.min.js"></script>
   <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>

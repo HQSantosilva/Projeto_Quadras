@@ -1,0 +1,50 @@
+🌟 *Step-by-Step Guide:*
+1. *Download MongoDB:*
+   - Visit the official MongoDB website (https://www.mongodb.com/try/download/...) and download the MongoDB Community Server for macOS.
+
+2. *Extract the Archive:*
+   - Once the download is complete, locate the downloaded file (usually a .tgz or .tar.gz archive) and extract it. You can do this by double-clicking on the file or using the terminal:
+     ```bash
+     tar -zxvf /path/to/downloaded/mongodb-osx-ssl-x86_64-4.x.x.tgz
+     ```
+
+3. *Move MongoDB to /usr/local:*
+   - Move the extracted MongoDB folder to `/usr/local` for easier access:
+     ```bash
+     sudo mv mongodb-osx-ssl-x86_64-4.x.x /usr/local/mongodb
+     ```
+
+4. *Create Data Directory:*
+   - MongoDB requires a data directory. Create one using:
+     ```bash
+     sudo mkdir -p /usr/local/var/mongodb
+     ```
+
+5. *Set Permissions:*
+   - Set proper permissions for the data directory:
+     ```bash
+     sudo chown -R $(whoami) /usr/local/var/mongodb
+     ```
+
+6. *Add MongoDB Binaries to PATH:*
+   - To access MongoDB from any location in the terminal, add the MongoDB binaries to your shell's PATH. If you're using Zsh, edit your Zsh configuration file (usually `~/.zshrc`):
+     ```bash
+     nano ~/.zshrc
+     ```
+     Add the following line at the end:
+     ```bash
+     export PATH="/usr/local/mongodb/bin:$PATH"
+     ```
+     Save and exit.
+
+7. *Restart Zsh or Source the Configuration:*
+   - Restart Zsh or source the updated configuration:
+     ```bash
+     source ~/.zshrc
+     ```
+
+8. *Start MongoDB:*
+   - Start MongoDB by running:
+     ```bash
+     mongod --dbpath /usr/local/var/mongodb
+     ```

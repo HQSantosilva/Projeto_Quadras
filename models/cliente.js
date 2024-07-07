@@ -32,6 +32,11 @@ const clienteSchema = new mongoose.Schema({
     dataCadastro: {
         type: Date,
         default: Date.now
+    },
+    tipo: {
+        type: String,
+        required: true,
+        default: 'user'
     }
 });
 

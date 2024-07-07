@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+    rel="stylesheet">
+  <title>Center Ball - Login</title>
+  <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/fontawesome.css">
+  <link rel="stylesheet" href="../../css/css.css">
+  <link rel="stylesheet" href="../../css/owl.css">
+  <style>
+    .modal-header {
+      border-bottom: none;
+    }
+
+    .modal-footer {
+      border-top: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="preloader">
+    <div class="jumper">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6" style="margin-top: 150px;">
+        <div class="card">
+          <div class="card-header">
+            <h3>Login</h3>
+          </div>
+          <div class="card-body">
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="user">Usuário</label>
+                <input type="text" class="form-control" id="user" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" id="password" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+              <p class="text-center mt-3">Não tem uma conta? <a href="#" data-toggle="modal"
+                  data-target="#registerModal">Cadastre-se</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel"
+    aria-hidden="true" style="margin-top: 150px;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Cadastro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="cadastroClienteForm">
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" class="form-control" id="nome" required>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="text" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="text" class="form-control" id="telefone" required>
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <input type="password" class="form-control" id="senha" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="social-icons">
+            <li><a href="#">Whatsapp</a></li>
+            <li><a href="#">E-mail</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-12">
+          <div class="copyright-text">
+            <p>Copyright 2024 é os Guri</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    async function verificarAutenticacao() {
+      const response = await fetch('http://localhost:3000/check-auth', {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const authStatus = await response.json();
+        if (!authStatus.autenticado) {
+          window.location.href = 'http://127.0.0.1:5500/public/telas/menu/home.html';
+        }
+      } else {
+        window.location.href = 'http://127.0.0.1:5500/public/telas/menu/login.html';
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById('user').value;
+      const senha = document.getElementById('password').value;
+
+      const data = {
+        email: email,
+        senha: senha
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.status === 200) {
+          const responseContent = await response.json();
+
+          const cookieNameTipo = 'tipo';
+          const cookieValueTipo = responseContent.data.tipo;
+
+          const cookieNameID = 'id'
+          const cookieValueID = responseContent.data._id;
+
+          const cookieNameNome = 'nome'
+          const cookieValueNome = responseContent.data.nome
+
+          const cookieString = `${cookieNameTipo}=${cookieValueTipo};`;
+          const cookieString2 = `${cookieNameID}=${cookieValueID};`;
+          const cookieString3 = `${cookieNameNome}=${cookieValueNome};`;
+
+          document.cookie = cookieString;
+          document.cookie = cookieString2;
+          document.cookie = cookieString3;
+
+          alert('Login realizado com sucesso!');
+          window.location.href = 'http://127.0.0.1:5500/public/telas/menu/home.html';
+        } else {
+          alert('Email ou senha incorretos.');
+        }
+      } catch (error) {
+        console.error('Erro ao realizar login:', error);
+        alert('Erro ao realizar login.');
+      }
+    });
+
+    document.getElementById('cadastroClienteForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const telefone = document.getElementById('telefone').value;
+      const senha = document.getElementById('senha').value;
+
+      const data = {
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        senha: senha,
+        cpf: 'cpf' + nome,
+        endereco: 'endereco' + nome,
+        token: document.value
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/clientes/cadastro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert('Cadastro realizado com sucesso!');
+          $('#registerModal').modal('hide');
+        } else {
+          alert('Erro ao realizar cadastro.');
+        }
+      } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao realizar cadastro.');
+      }
+    });
+
+    function verificarTipoCookie() {
+      const cookies = document.cookie.split(';');
+      let tipoValue = null;
+
+      // Encontrar o valor do cookie 'tipo'
+      cookies.forEach(cookie => {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'tipo') {
+          tipoValue = value;
+        }
+      });
+
+      // Verificar se o valor do cookie 'tipo' é 'user'
+      if (tipoValue === 'user') {
+        // Ocultar os itens do menu
+        const dropdownMenu = document.querySelector('#clientesDropdown .dropdown-menu');
+        if (dropdownMenu) {
+          dropdownMenu.style.display = 'none';
+        }
+      }
+    }
+
+    // Chamar a função ao carregar a página
+    window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+  </script>
+
+  <script src="../../jquery/jquery.min.js"></script>
+  <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/custom.js"></script>
+  <script src="../../js/owl.js"></script>
+  <script src="../../js/slick.js"></script>
+  <script src="../../js/isotope.js"></script>
+  <script src="../../js/accordions.js"></script>
+</body>
+
+</html>

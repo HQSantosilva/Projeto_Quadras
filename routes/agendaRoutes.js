@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
 
 router.put('/:id', async (req, res) => {
-    const { clienteId, quadraId, horarioId, dataReserva, status } = req.body;
+    const { clienteId, quadraId, horarioId, dataReserva, status, statusComparecimento } = req.body;
     try {
         // Atualiza o registro específico com os dados fornecidos
         const agenda = await Agenda.findByIdAndUpdate(req.params.id, {
@@ -32,7 +32,8 @@ router.put('/:id', async (req, res) => {
             quadraId,
             horarioId,
             dataReserva,
-            status
+            status,
+            statusComparecimento
         }, { new: true });
 
         // Se o status for "Ativo", atualiza outros registros conflitantes para "Recusado"

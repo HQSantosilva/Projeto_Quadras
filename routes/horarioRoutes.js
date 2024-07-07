@@ -51,6 +51,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
+
         const filtro = {};
         if (req.query.quadraId) {
             filtro.quadraId = req.query.quadraID;
@@ -67,6 +68,7 @@ router.get('/', async (req, res) => {
         if (req.query.dataCadastro) {
             filtro.dataCadastro = req.query.dataCadastro;
         }
+
 
         const horarios = await Horario.find(filtro);
 

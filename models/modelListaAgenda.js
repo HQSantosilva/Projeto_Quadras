@@ -25,7 +25,8 @@ async function buscarDadosAgendaPorData(dataSelecionada) {
             clienteNome: agenda.clienteId.nome,
             quadraNome: agenda.quadraId.nome,
             horarioInicio: agenda.horarioId.inicio,
-            horarioFim: agenda.horarioId.fim
+            horarioFim: agenda.horarioId.fim,
+            statusComparecimento: agenda.statusComparecimento
         }));
 
         return dadosFormatados;

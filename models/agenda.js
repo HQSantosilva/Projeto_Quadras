@@ -28,6 +28,10 @@ const agendaSchema = new mongoose.Schema({
         type: String,
         enum: ['Ativo', 'Pendente', 'Recusado'],
         default: 'Pendente'
+    },
+    statusComparecimento: {
+        type: String,
+        default: null
     }
 });
 

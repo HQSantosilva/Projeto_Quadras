@@ -38,14 +38,14 @@ async function carregarHorarios() {
         const quadraSelect = document.getElementById("quadra");
         const quadraId = quadraSelect.value;
         const dataReserva = document.getElementById("dataReserva").value;
-        
+
         if (!quadraId || !dataReserva) {
             return;
         }
-        
+
         const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
         const diaSemana = diasSemana[new Date(dataReserva).getDay() + 1];
-        
+
         const responseHorarios = await fetch(`http://localhost:3000/api/horarios`);
         const horarios = await responseHorarios.json();
 
@@ -57,7 +57,7 @@ async function carregarHorarios() {
 
         // Filtra os horários disponíveis para o dia da semana e pela quadra selecionada
         const horariosFiltrados = horarios.filter(horario => horario.dias.includes(diaSemana) && horario.quadraId === quadraId);
-        
+
         // Verifica quais horários estão ocupados
         const horariosOcupados = reservas
             .filter(reserva => reserva.status === 'Ativo')
@@ -68,7 +68,7 @@ async function carregarHorarios() {
 
         // Remove os horários ocupados da lista de horários filtrados
         const horariosDisponiveis = horariosFiltrados.filter(horario => {
-            return !horariosOcupados.some(ocupado => 
+            return !horariosOcupados.some(ocupado =>
                 ocupado.inicio === horario.inicio && ocupado.fim === horario.fim
             );
         });
@@ -98,24 +98,36 @@ document.getElementById('reservaForm').addEventListener('submit', async (event) 
     const clienteSelect = document.getElementById('cliente');
     const clienteId = clienteSelect.value;
 
+    // Verificar cookies
+    const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+        const [name, value] = cookie.trim().split('=');
+        acc[name] = value;
+        return acc;
+    }, {});
+
     try {
         const responseClientes = await fetch('http://localhost:3000/api/clientes');
         const clientes = await responseClientes.json();
 
-        const clienteExato = clientes.find(cliente => cliente._id === clienteId);
+
+        let clienteExato = null;
+        if (cookies.tipo === 'user') {
+            clienteExato = clientes.find(cliente => cliente._id === cookies.id);
+        } else {
+            clienteExato = clientes.find(cliente => cliente._id === clienteId);
+        }
 
         if (!clienteExato) {
             alert('Cliente não encontrado.');
             return;
         }
-
+        
         const data = {
             clienteId: clienteExato._id,
             quadraId: formData.get('quadra'),
             horarioId: formData.get('horario'),
             dataReserva: formData.get('dataReserva')
         };
-
 
         const response = await fetch('http://localhost:3000/agenda', {
             method: 'POST',

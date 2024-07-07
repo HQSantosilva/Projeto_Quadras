@@ -12,9 +12,22 @@
     <link rel="stylesheet" href="../../css/fontawesome.css">
     <link rel="stylesheet" href="../../css/css.css">
     <link rel="stylesheet" href="../../css/owl.css">
+    <style>
+        .dropdown-menu.d-none {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body>
+    <!-- <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div> -->
 
     <header class="">
         <nav class="navbar navbar-expand-lg">
@@ -28,7 +41,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="./home.html">Home
                                 <span class="sr-only">(current)</span>
                             </a>
@@ -39,7 +52,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="./contato.html">Contato</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Reservas
@@ -49,7 +62,7 @@
                                 <a class="dropdown-item" href="./gerenciarAgenda.html">Gerenciar Reservas</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="dropdownClientes">
                             <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Clientes
@@ -59,7 +72,7 @@
                                 <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" id="dropdownQuadras">
                             <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Quadras
@@ -70,6 +83,9 @@
                                 <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
                                 <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
                         </li>
                     </ul>
                 </div>
@@ -118,7 +134,7 @@
 
     <!-- Modal de Edição -->
     <div class="modal fade" id="modalEdicao" tabindex="-1" role="dialog" aria-labelledby="modalEdicaoLabel"
-        aria-hidden="true">
+        aria-hidden="true" style="margin-top: 150px;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,6 +172,14 @@
                             </div>
 
                         </div>
+                        <div class="form-group" id="statusComparecimentoGroup" style="display: flex;">
+                            <label for="statusComparecimento">Status de Comparecimento</label>
+                            <select class="form-control" id="statusComparecimento">
+                                <option value="">Selecione...</option>
+                                <option value="Compareceu">Compareceu</option>
+                                <option value="Não Compareceu">Não Compareceu</option>
+                            </select>
+                        </div>
                         <input type="hidden" id="idAgenda" name="idAgenda">
                     </form>
                 </div>
@@ -191,7 +215,7 @@
 
     <!-- Script adicional para preencher a tabela de agenda -->
     <script>
-        function preencherModalEdicao(id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status) {
+        function preencherModalEdicao(id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status, statusComparecimento) {
             document.getElementById('clienteId').value = clienteNome;
             document.getElementById('quadraId').value = quadraNome;
             document.getElementById('horarioId').value = `${horarioInicio}:00 - ${horarioFim}:00`;
@@ -199,6 +223,13 @@
             document.getElementById('idAgenda').value = id;
             document.getElementById('statusEdit').value = status;
 
+            const statusComparecimentoGroup = document.getElementById('statusComparecimentoGroup');
+            if (status === 'Ativo') {
+                statusComparecimentoGroup.style.display = 'block';
+                document.getElementById('statusComparecimentoGroup').value = statusComparecimento
+            } else {
+                statusComparecimentoGroup.style.display = 'none';
+            }
             // Abrir a modal de edição
             $('#modalEdicao').modal('show');
         }
@@ -207,8 +238,13 @@
             try {
                 const idAgenda = document.getElementById('idAgenda').value;
                 const status = document.getElementById('statusEdit').value;
+                const statusComparecimento = document.getElementById('statusComparecimento').value;
 
                 const dadosEditados = { status: status };
+
+                if (status === 'Ativo') {
+                    dadosEditados.statusComparecimento = statusComparecimento;
+                }
 
                 const response = await fetch(`http://localhost:3000/agenda/${idAgenda}`, {
                     method: 'PUT',
@@ -245,6 +281,7 @@
             }
         }
 
+
         async function preencherGrade() {
             try {
                 const dataSelecionada = document.getElementById('dataSelecionada').value;
@@ -271,6 +308,9 @@
                 const hoje = new Date();
                 hoje.setHours(0, 0, 0, 0); // Definindo a hora para meia-noite para comparar apenas a data
 
+                // Verificar o valor do cookie 'tipo'
+                const valueCookies = obterValorCookie();
+
                 dadosAgenda.forEach(item => {
                     const dataReserva = new Date(item.dataReserva);
                     dataReserva.setHours(0, 0, 0, 0); // Definindo a hora para meia-noite para comparar apenas a data
@@ -278,26 +318,29 @@
                     dataAtual.setDate(dataReserva.getDate() + 1);
                     const dataReservaFormatada = dataAtual.toLocaleDateString('pt-BR');
 
-                    if (dataSelecionada) {
-                        tabelaHTML += `
-                    <tr>
-                        <td>${item.id}</td>
-                        <td>${item.clienteNome}</td>
-                        <td>${item.quadraNome}</td>
-                        <td>${dataReservaFormatada}</td>
-                        <td>${item.horarioInicio} - ${item.horarioFim}</td>
-                        <td>${item.status}</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${item.id}', '${item.clienteNome}', '${item.quadraNome}', '${item.horarioInicio}', '${item.horarioFim}', '${item.dataReserva}', '${item.status}')">
-                                <i class="fas fa-pencil-alt"></i> Editar
-                            </button>
-                            <button type="button" class="btn btn-danger" onclick="excluirReserva('${item._id}')">
-                                <i class="fas fa-trash-alt"></i> Excluir
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                    } else if (dataReserva >= hoje && item.status !== 'Recusado') {
+                    // Filtrar os dados baseado no valor do cookie 'tipo'
+                    if (valueCookies.tipo === 'user') {
+                        const valueCookies = obterValorCookie()
+                        // Exibir apenas os nomes correspondentes ao cliente logado
+                        if (item.clienteId.nome === valueCookies.nome) {
+                            tabelaHTML += `
+                        <tr>
+                            <td>${item._id}</td>
+                            <td>${item.clienteId.nome}</td>
+                            <td>${item.quadraId.nome}</td>
+                            <td>${dataReservaFormatada}</td>
+                            <td>${item.horarioId.inicio} - ${item.horarioId.fim}</td>
+                            <td>${item.status}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="excluirReserva('${item._id}')">
+                                    <i class="fas fa-trash-alt"></i> Excluir
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        }
+                    } else {
+                        // Exibir todos os nomes se o usuário não for 'user'
                         tabelaHTML += `
                     <tr>
                         <td>${item._id}</td>
@@ -325,6 +368,46 @@
             }
         }
 
+        function obterValorCookie() {
+            const cookies = document.cookie.split(';');
+
+            let cookieValues = {};
+
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                cookieValues[name.trim()] = value.trim();
+            });
+
+            return cookieValues;
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusEdit = document.getElementById('statusEdit');
+            const presencaFields = document.getElementById('presencaFields');
+
+            statusEdit.addEventListener('change', () => {
+                if (statusEdit.value === 'Ativo') {
+                    presencaFields.style.display = 'block';
+                } else {
+                    presencaFields.style.display = 'none';
+                }
+            });
+
+            // Adicionar a lógica para preencher a modal de edição ao carregar os dados
+            const preencherModalEdicaoOriginal = preencherModalEdicao;
+            window.preencherModalEdicao = function (id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status) {
+                preencherModalEdicaoOriginal(id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status);
+
+                if (status === 'Ativo') {
+                    presencaFields.style.display = 'block';
+                } else {
+                    presencaFields.style.display = 'none';
+                }
+            };
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const inputData = document.getElementById('dataSelecionada');
@@ -341,6 +424,34 @@
                 console.error('Elemento com ID "dataSelecionada" não encontrado.');
             }
         });
+
+        function verificarTipoCookie() {
+            const cookies = document.cookie.split(';');
+
+            let tipoValue = null;
+
+            // Encontrar o valor do cookie 'tipo'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'tipo') {
+                    tipoValue = value;
+                }
+            });
+
+            // Verificar se o valor do cookie 'tipo' é 'user'
+            if (tipoValue === 'user') {
+                // Ocultar os itens do menu de clientes
+
+                const dropdownClientes = document.getElementById('dropdownClientes');
+                const dropdownQuadras = document.getElementById('dropdownQuadras');
+                if (clientesDropdown) {
+                    dropdownClientes.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownQuadras.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', verificarTipoCookie);
     </script>
 
 </body>

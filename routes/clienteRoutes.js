@@ -6,7 +6,7 @@ const router = express.Router();
 // Rota para lidar com as requisições POST do formulário de cadastro de clientes
 router.post('/cadastro', async (req, res) => {
     try {
-        const { nome, email, cpf, telefone, endereco, senha } = req.body;
+        const { nome, email, cpf, telefone, endereco, senha, tipo } = req.body;
 
         const cliente = new Cliente({
             nome,
@@ -14,7 +14,8 @@ router.post('/cadastro', async (req, res) => {
             cpf,
             telefone,
             endereco,
-            senha
+            senha,
+            tipo
         });
 
         await cliente.save();
@@ -43,6 +44,22 @@ router.put('/:id', async (req, res) => {
         res.status(500).send('Erro ao atualizar cliente');
     }
 });
+
+// router.post('/login', async (req, res) => {
+//     try {
+//         const { email, senha } = req.body;
+//         const cliente = await Cliente.findOne({ email, senha });
+
+//         if (!cliente) {
+//             return res.status(401).send('Email ou senha incorretos');
+//         }
+
+//         res.send(cliente);
+//     } catch (error) {
+//         console.error('Erro ao realizar login:', error);
+//         res.status(500).send('Erro ao realizar login');
+//     }
+// });
 
 router.delete('/:id', async (req, res) => {
     try {
