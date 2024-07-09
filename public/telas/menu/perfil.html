@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Perfil do Cliente</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+        rel="stylesheet">
+
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/fontawesome.css">
+    <link rel="stylesheet" href="../../css/css.css">
+    <link rel="stylesheet" href="../../css/owl.css">
+    <style>
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: none;
+        }
+
+        .btn-editar {
+            margin-top: 20px;
+        }
+
+        .reservas {
+            margin-top: 30px;
+        }
+
+        .reserva {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .semReservas {
+            margin-top: 10px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="./home.html">
+                    <h2>Center Ball<em>.</em></h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="./home.html">Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./sobreNos.html">Sobre Nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./contato.html">Contato</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./perfil.html">Meu perfil</a>
+                        </li>
+                        <!-- Menu Dropdown para Reservas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reservas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="reservasDropdown">
+                                <a class="dropdown-item" href="./criarAgenda.html">Criar Reserva</a>
+                                <a class="dropdown-item" href="./gerenciarAgenda.html"
+                                    id="itemGerenciarReserva">Gerenciar Reservas</a>
+                            </div>
+                        </li>
+                        <!-- Menu Dropdown para Clientes -->
+                        <li class="nav-item dropdown" id="dropdownClientes">
+                            <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Clientes
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="clientesDropdown">
+                                <a class="dropdown-item" href="./gerenciarCliente.html">Gerenciar Clientes</a>
+                                <a class="dropdown-item" href="./criarCliente.html">Criar Cliente</a>
+                            </div>
+                        </li>
+                        <!-- Menu Dropdown para Quadras -->
+                        <li class="nav-item dropdown" id="dropdownQuadras">
+                            <a class="nav-link dropdown-toggle" href="#" id="quadrasDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Quadras
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="quadrasDropdown">
+                                <a class="dropdown-item" href="./gerenciarQuadra.html">Quadras</a>
+                                <a class="dropdown-item" href="./criarQuadra.html">Criar Quadra</a>
+                                <a class="dropdown-item" href="./criarHorario.html">Criar Horario</a>
+                                <a class="dropdown-item" href="./gerenciarHorario.html">Horarios</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./login.html">Login ou Cadastre-se</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div style="margin-top: 200px; width: 60%;">
+            <div class="card-header">
+                <h3>Perfil do Cliente</h3>
+            </div>
+            <div class="card-body">
+                <form id="perfilForm">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" class="form-control" id="cpf" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" class="form-control" id="telefone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="senha">Nova Senha</label>
+                        <input type="password" class="form-control" id="senha">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- Seção de Minhas Reservas -->
+        <div class="reservas">
+            <h3>Minhas Reservas</h3>
+            <div id="listaReservas">
+                <!-- Aqui serão listadas as reservas -->
+            </div>
+            <div id="semReservas" class="semReservas" style="display: none;">Não há reservas.</div>
+        </div>
+
+    </div>
+
+    <script>
+
+        function verificarTipoCookie() {
+            const cookies = document.cookie.split(';');
+
+            let tipoValue = null;
+
+            // Encontrar o valor do cookie 'tipo'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'tipo') {
+                    tipoValue = value;
+                }
+            });
+
+            // Verificar se o valor do cookie 'tipo' é 'user'
+            if (tipoValue === 'user') {
+                // Ocultar os itens do menu de clientes
+                const dropdownItemReserva = document.getElementById('itemGerenciarReserva')
+
+                const dropdownClientes = document.getElementById('dropdownClientes');
+                const dropdownQuadras = document.getElementById('dropdownQuadras');
+                if (clientesDropdown) {
+                    dropdownClientes.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownQuadras.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                    dropdownItemReserva.classList.add('d-none'); // Adiciona a classe d-none para ocultar o menu
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', verificarTipoCookie);
+        async function carregarPerfilCliente() {
+            const cookies = document.cookie.split(';');
+            let clienteId = null;
+
+            // Encontrar o valor do cookie 'id'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'id') {
+                    clienteId = value;
+                }
+            });
+
+            if (!clienteId) {
+                console.error('ID do cliente não encontrado nos cookies.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/clientes/perfil/${clienteId}`);
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar perfil do cliente');
+                }
+                const cliente = await response.json();
+
+                // Preencher os campos do formulário com os dados do cliente
+                document.getElementById('nome').value = cliente.nome;
+                document.getElementById('email').value = cliente.email;
+                document.getElementById('cpf').value = cliente.cpf;
+                document.getElementById('telefone').value = cliente.telefone;
+
+            } catch (error) {
+                console.error('Erro ao carregar perfil do cliente:', error);
+                alert('Erro ao carregar perfil do cliente. Verifique o console para mais detalhes.');
+            }
+        }
+
+        async function carregarMinhasReservas() {
+            const cookies = document.cookie.split(';');
+            let clienteId = null;
+
+            // Encontrar o valor do cookie 'id'
+            cookies.forEach(cookie => {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'id') {
+                    clienteId = value;
+                }
+            });
+
+            if (!clienteId) {
+                console.error('ID do cliente não encontrado nos cookies.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/agenda?clienteId=${clienteId}`);
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar reservas do cliente');
+                }
+                const reservas = await response.json();
+
+                const listaReservas = document.getElementById('listaReservas');
+                const semReservasMsg = document.getElementById('semReservas');
+
+                listaReservas.innerHTML = ''; // Limpar conteúdo anterior
+
+
+                if (reservas.length === 0) {
+                    semReservasMsg.style.display = 'block'; // Exibe mensagem de sem reservas
+                } else {
+                    reservas.forEach(reserva => {
+                        const dataReserva = new Date(reserva.dataReserva);
+                        dataReserva.setHours(0, 0, 0, 0); // Definindo a hora para meia-noite para comparar apenas a data
+                        const dataAtual = new Date(reserva.dataReserva);
+                        dataAtual.setDate(dataReserva.getDate() + 1);
+                        const dataReservaFormatada = dataAtual.toLocaleDateString('pt-BR');
+                        const reservaHTML = `
+                        <div class="reserva">
+                            <p><strong>Quadra:</strong> ${reserva.quadraId.nome}</p>
+                            <p><strong>Horário:</strong> ${reserva.horarioId.inicio} - ${reserva.horarioId.fim}</p>
+                            <p><strong>Data:</strong>${dataReservaFormatada}</p>
+                            <p><strong>Status:</strong>${reserva.status}</p>
+                        </div>
+                        `;
+                        listaReservas.innerHTML += reservaHTML;
+                    });
+
+                    semReservasMsg.style.display = 'none'; // Esconde mensagem de sem reservas
+                }
+
+            } catch (error) {
+                console.error('Erro ao carregar reservas do cliente:', error);
+                alert('Erro ao carregar reservas do cliente. Verifique o console para mais detalhes.');
+            }
+        }
+
+        async function atualizarPerfilCliente(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            const telefone = document.getElementById('telefone').value;
+            const senha = document.getElementById('senha').value;
+
+            const data = {
+                nome,
+                email,
+                cpf,
+                telefone,
+                senha
+            };
+
+            try {
+                const cookies = document.cookie.split(';');
+                let clienteId = null;
+
+                // Encontrar o valor do cookie 'id'
+                cookies.forEach(cookie => {
+                    const [name, value] = cookie.trim().split('=');
+                    if (name === 'id') {
+                        clienteId = value;
+                    }
+                });
+
+                if (!clienteId) {
+                    console.error('ID do cliente não encontrado nos cookies.');
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Perfil atualizado com sucesso!');
+                    // Recarregar os dados do perfil após a atualização
+                    carregarPerfilCliente();
+                } else {
+                    throw new Error('Erro ao atualizar perfil do cliente');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar perfil do cliente:', error);
+                alert('Erro ao atualizar perfil do cliente. Verifique o console para mais detalhes.');
+            }
+        }
+
+        // Chamar a função ao carregar a página para carregar o perfil do cliente e suas reservas
+        window.addEventListener('DOMContentLoaded', () => {
+            carregarPerfilCliente();
+            carregarMinhasReservas();
+        });
+
+        // Adicionar evento de submit ao formulário de perfil
+        document.getElementById('perfilForm').addEventListener('submit', atualizarPerfilCliente);
+    </script>
+
+    <script src="../../jquery/jquery.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/custom.js"></script>
+    <script src="../../js/owl.js"></script>
+    <script src="../../js/slick.js"></script>
+    <script src="../../js/isotope.js"></script>
+    <script src="../../js/accordions.js"></script>
+
+</body>
+
+</html>

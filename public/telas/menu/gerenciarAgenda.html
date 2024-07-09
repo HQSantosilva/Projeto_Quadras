@@ -52,6 +52,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="./contato.html">Contato</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./perfil.html">Meu perfil</a>
+                        </li>
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="reservasDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -173,8 +176,8 @@
 
                         </div>
                         <div class="form-group" id="statusComparecimentoGroup" style="display: flex;">
-                            <label for="statusComparecimento">Status de Comparecimento</label>
-                            <select class="form-control" id="statusComparecimento">
+                            <label for="statusComp">Status de Comparecimento</label>
+                            <select class="form-control" id="statusComp">
                                 <option value="">Selecione...</option>
                                 <option value="Compareceu">Compareceu</option>
                                 <option value="Não Compareceu">Não Compareceu</option>
@@ -222,11 +225,11 @@
             document.getElementById('dataReserva').value = dataReserva;
             document.getElementById('idAgenda').value = id;
             document.getElementById('statusEdit').value = status;
+            document.getElementById('statusComp').value = statusComparecimento
 
             const statusComparecimentoGroup = document.getElementById('statusComparecimentoGroup');
             if (status === 'Ativo') {
                 statusComparecimentoGroup.style.display = 'block';
-                document.getElementById('statusComparecimentoGroup').value = statusComparecimento
             } else {
                 statusComparecimentoGroup.style.display = 'none';
             }
@@ -238,7 +241,7 @@
             try {
                 const idAgenda = document.getElementById('idAgenda').value;
                 const status = document.getElementById('statusEdit').value;
-                const statusComparecimento = document.getElementById('statusComparecimento').value;
+                const statusComparecimento = document.getElementById('statusComp').value;
 
                 const dadosEditados = { status: status };
 
@@ -331,6 +334,7 @@
                             <td>${dataReservaFormatada}</td>
                             <td>${item.horarioId.inicio} - ${item.horarioId.fim}</td>
                             <td>${item.status}</td>
+                            <td>${item.statusComparecimento}</td>
                             <td>
                                 <button type="button" class="btn btn-danger" onclick="excluirReserva('${item._id}')">
                                     <i class="fas fa-trash-alt"></i> Excluir
@@ -349,6 +353,7 @@
                         <td>${dataReservaFormatada}</td>
                         <td>${item.horarioId.inicio} - ${item.horarioId.fim}</td>
                         <td>${item.status}</td>
+                        <td>${item.statusComparecimento}</td>
                         <td>
                             <button type="button" class="btn btn-primary" onclick="preencherModalEdicao('${item._id}', '${item.clienteId.nome}', '${item.quadraId.nome}', '${item.horarioId.inicio}', '${item.horarioId.fim}', '${item.dataReserva}', '${item.status}')">
                                 <i class="fas fa-pencil-alt"></i> Editar
@@ -385,7 +390,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const statusEdit = document.getElementById('statusEdit');
-            const presencaFields = document.getElementById('presencaFields');
+            const presencaFields = document.getElementById('statusComparecimentoGroup');
 
             statusEdit.addEventListener('change', () => {
                 if (statusEdit.value === 'Ativo') {
@@ -395,17 +400,6 @@
                 }
             });
 
-            // Adicionar a lógica para preencher a modal de edição ao carregar os dados
-            const preencherModalEdicaoOriginal = preencherModalEdicao;
-            window.preencherModalEdicao = function (id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status) {
-                preencherModalEdicaoOriginal(id, clienteNome, quadraNome, horarioInicio, horarioFim, dataReserva, status);
-
-                if (status === 'Ativo') {
-                    presencaFields.style.display = 'block';
-                } else {
-                    presencaFields.style.display = 'none';
-                }
-            };
         });
 
 

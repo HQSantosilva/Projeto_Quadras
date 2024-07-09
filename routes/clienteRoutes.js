@@ -97,4 +97,20 @@ router.get('/', async (req, res) => {
         res.status(500).send('Erro ao buscar clientes');
     }
 });
+
+router.get('/perfil/:id', async (req, res) => {
+    try {
+        const cliente = await Cliente.findById(req.params.id);
+
+        if (!cliente) {
+            return res.status(404).json({ message: 'Cliente não encontrado' });
+        }
+
+        res.json(cliente);
+    } catch (error) {
+        console.error('Erro ao buscar cliente por ID:', error);
+        res.status(500).send('Erro ao buscar cliente por ID');
+    }
+});
+
 module.exports = router;
